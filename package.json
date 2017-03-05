@@ -5,7 +5,8 @@
   "description": "Wordpress plugin for lists of items",
   "scripts": {
     "lint": "php-cs-fixer fix .",
-    "watch": "node ./tools/watch"
+    "watch": "node ./tools/watch",
+    "publish": "node ./tools/publish"
   },
   "devDependencies": {
     "cpx": "^1.5.0",
