@@ -1,0 +1,48 @@
+.zkwp-tools-add{
+    text-decoration: none;
+    display: inline-block;
+    margin: 1% 0;
+    font-size: 1.1em;
+    color: #060;
+    font-weight: bold;
+    >span{
+        color: #0f0;
+    }
+}
+
+.zkwp-tools-delete{
+    display: block;
+    height: 20px;
+    width: 100%;
+    background: url('images/icon-delete.png') center center no-repeat;
+}
+
+.zkwp-tools-edit{
+    display: block;
+    height: 20px;
+    width: 100%;
+    background: url('images/icon-edit.png') center center no-repeat;
+}
+
+.zkwp-tools-search{
+    margin: 1% 0;
+    >div{
+        float:left;
+        margin-right: 0.5%;
+        height: 25px;
+        line-height: 25px;
+        font-size: 1.1em;
+
+        >label{
+            display: inline-block;
+            padding-left: 24px;
+            font-weight: bold;
+            color: #060;
+            background: url('images/icon-search.png') center left no-repeat;
+        }
+    }
+    input{
+        @extend %input;
+    }
+
+}

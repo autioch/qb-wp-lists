@@ -1,0 +1,42 @@
+/// <reference path="../widegreen.scss" />
+
+@mixin commonInput(){
+    padding: 0.25em 0.5em;
+    border-radius: 0.2em;
+    border: solid 1px #777;
+}
+
+select{
+    @include commonInput();
+}
+
+textarea{
+    @include commonInput();
+}
+
+/* You may also want to style password, color, etc. */
+
+input[type="text"]{  
+    @include commonInput();
+}
+
+input[type="radio"]{
+    @include commonInput();
+}
+
+input[type="checkbox"]{
+    @include commonInput();
+}
+
+
+
+%input{
+    border: solid 1px #006600;
+    padding: 2px;
+    box-sizing: content-box;
+    margin:0;
+    &:hover{
+        border: solid 1px #009933;
+    }   
+}
+

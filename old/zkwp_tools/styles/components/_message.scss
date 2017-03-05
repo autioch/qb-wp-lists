@@ -1,0 +1,21 @@
+.qbca-message {
+    border-radius: 10px;
+    border: solid 1px;
+    padding: 1%;
+    margin: 1% 0;
+    width: 96%;
+    font-weight: bold;
+
+    &.qbca-error {
+        background-color: lighten(#f00,40%);
+        border-color: #f00;
+        color: darken(#f00,40%);
+    }
+
+    &.qbca-success {
+        background-color: lighten(#0f0,40%);
+        border-color: #0f0;
+        color: darken(#0f0,40%);
+    }   
+
+}

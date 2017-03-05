@@ -1,0 +1,48 @@
+.qbc-table-list{
+
+    width: 100%;
+    border-collapse: collapse;
+    border-bottom: solid 1px #bfb;
+
+    >tbody>tr{
+        border-top: solid 1px #bfb;
+        &:hover {
+            background-color: lighten(#bfb, 5%);
+        }
+    }
+
+    td{
+        padding: 0.25em 0.5em;
+        vertical-align: top;  
+    }
+
+    th:hover{
+        background-color: lighten(#bfb, 5%);
+    }
+
+    th{     
+        cursor: pointer;   
+        vertical-align: top;
+        padding: 0.25em 0.5em 0.25em 24px;
+        background: #fff 4px center no-repeat;
+
+        &.sorting{
+            background-image: url('images/sorting.png');
+        }    
+
+        &.sorting_asc{
+            background-image: url('images/sorting-asc.png');
+        }
+
+        &.sorting_desc{
+            background-image: url('images/sorting-desc.png');
+        }         
+
+    }    
+
+
+    ul {
+        @extend %list-reset;
+    }
+
+}

@@ -1,0 +1,30 @@
+.qbc-item{
+
+    @extend %clearfix;
+    
+    padding-bottom: 1.5em;
+    border-bottom: solid 1px #093;
+    margin-bottom: 1.5em;
+
+    p, ul, h3, h4{
+        margin: 0.5em 0;
+        padding:0;
+    }
+
+    li:before{
+        content: '-';
+        display: inline-block;
+        margin-left: 8px;
+        margin-right: 8px;
+    }
+}
+
+.qbc-item-image{
+    max-width:25%;
+    float:right;
+    max-height: 250px;
+    margin-left: 2%;
+}
+
+
+

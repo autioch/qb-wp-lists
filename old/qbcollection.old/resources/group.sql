@@ -1,0 +1,10 @@
+('Grupa I - Owczarki i inne psy pasterskie z wyłączeniem szwajcarskich psów do bydła'),
+('Grupa II - Pinczery i sznaucery, molosy, szwajcarskie psy górskie i do bydła, pozostałe rasy'),
+('Grupa III - Teriery'),
+('Grupa IV - Jamniki'),
+('Grupa V - Szpice i psy w typie pierwotnym'),
+('Grupa VI - Psy gończe i rasy pokrewne'),
+('Grupa VII - Wyżły (psy wystawiające zwierzynę)'),
+('Grupa VIII - Aportery, płochacze i psy dowodne'),
+('Grupa IX - Psy ozdobne i do towarzystawa'),
+('Grupa X - Charty');

@@ -1,0 +1,33 @@
+Database
+    read resources
+    set charset
+    create/modify tables
+    check for existance of /resource $id sql to insert extra data
+    
+Admin
+    add menu items
+    enqueue resources
+    get page
+    list items
+    add item
+    delete item
+    edit item
+    add editor shortcode
+    
+    view to list collections, list, add, edit, delete collections.
+
+
+Front
+    add shortcode hooks
+    enqueue resources
+    get collection
+    decide to show select
+    list items
+
+
+Dirs
+    move internal views into resources
+    create custom folder
+    
+
+

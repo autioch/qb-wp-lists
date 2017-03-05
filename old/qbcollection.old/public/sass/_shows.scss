@@ -1,0 +1,29 @@
+.zkwp-show{
+    display: table;
+    width:100%;
+    >span{
+        display:table-cell;
+    }
+}
+
+.zkwp-show-date{
+    width: 1em;
+    &:after{
+        content:', ';
+    }
+}
+
+.zkwp-show-city{
+    width: 6em;
+    padding-left: 5px;
+    @media screen and (max-width: 600px){
+        width: 5em;
+    }
+}
+
+.zkwp-show-index{
+    @extend %list-reset;
+    >li{
+        padding: 0.5% 0; 
+    }
+}

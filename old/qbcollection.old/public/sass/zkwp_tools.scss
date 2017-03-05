@@ -1,0 +1,29 @@
+@import '../jquery.ui/jquery-ui';
+
+%list-reset{
+    list-style-type: none;
+    padding:0;
+    margin:0;
+}
+
+%input{
+    border: solid 1px #006600;
+    padding: 2px;
+    box-sizing: content-box;
+    margin:0;
+    &:hover{
+        border: solid 1px #009933;
+    }   
+}
+
+@import '_actions';
+@import '_fonts';
+@import '_misc';
+@import '_qbf-form';
+@import '_shows';
+@import '_table';
+@import '_table-list';
+@import '_table-view';
+@import '_imageHelp';
+
+

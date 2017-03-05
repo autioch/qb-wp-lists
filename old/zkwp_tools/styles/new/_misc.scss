@@ -1,0 +1,40 @@
+/// <reference path="../widegreen.scss" />
+
+.is-hidden {
+    display: none;
+}
+
+%list-reset {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+@mixin lightandshadow($color, $change: 7%) {
+    $from: lighten($color, $change);
+    $to: darken($color, $change);
+    @include gradientVertical3($from, $color, $to);
+}
+
+p {
+    line-height: 1.6em;
+    text-align: justify;
+}
+
+.sparse {
+    padding: 2em 0;
+}
+
+.sparse-t {
+    padding-top: 2em;
+}
+
+.sparse-b {
+    padding-bottom: 2em;
+}
+
+
+.qbc-col-100{
+    width: 1px;
+    text-align: center;
+}

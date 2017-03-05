@@ -1,0 +1,91 @@
+.qbca-add{
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1.1em;
+    color: #060;
+    font-weight: bold;
+    margin: 1em 0;
+    >span{
+        margin-right: 0.5em;
+    }
+}
+
+.qbca-delete{
+    display: block;
+    height: 20px;
+    width: 100%;
+    background: url('images/icon-delete.png') center center no-repeat;
+}
+
+.qbca-edit{
+    display: block;
+    height: 20px;
+    width: 100%;
+    background: url('images/icon-edit.png') center center no-repeat;
+}
+
+.qbc-search{
+    margin: 1em 0;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #060;
+
+    >.qbci-search{
+        margin-right: 0.5em;   
+    }
+    >div{
+        display: inline-block;
+        margin-right: 1em;
+    }
+}
+
+.qbca-list{
+
+    width: 99%;
+    margin: 1em 0;
+    border-collapse: collapse;
+    border-bottom: solid 1px #ddd;
+
+    >tbody>tr:hover {
+        background-color: #bfb;
+    }
+
+    .even {
+        background-color: lighten(#bfb, 5%);
+    }
+
+    .odd {
+        background-color: lighten(#bfb, 15%);
+    }
+
+    td{
+        padding: 0.5em;
+        vertical-align: top;   
+        cursor: pointer;
+    }
+
+    th{        
+        vertical-align: top;
+        padding: 0.5em 0.5em 0.5em 24px;
+        background: #bfb 4px center no-repeat;
+        border-top: solid 1px #ddd;
+        border-bottom: solid 1px #ddd;
+
+        &.sorting{
+            cursor: pointer;
+            background-color: lighten(#bfb, 5%);
+            background-image: url('images/sorting.png');
+        }    
+
+        &.sorting_asc{
+            background-image: url('images/sorting-asc.png');
+        }
+
+        &.sorting_desc{
+            background-image: url('images/sorting-desc.png');
+        }         
+
+    }    
+
+}
+

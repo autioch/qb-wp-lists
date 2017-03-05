@@ -1,0 +1,35 @@
+.qbca-image-help{
+    float: right;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background-color: #0033cc;
+    color: #fff;
+    position: relative;
+    text-align: center;
+    font-weight: bold;
+    margin-right: -4px;
+    margin-top: 2px;
+    >div{
+        background-color: #e9ebff;
+        display: none;
+        padding: 10px;        
+        border: solid 1px #0033cc;
+        color: #003;
+        width: 220px;
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        text-align: left;
+        font-weight: normal;
+        >a{
+            color: #0033cc;
+            text-decoration:none;
+            border-bottom: solid 1px;
+            font-weight: bold;
+        }
+    }
+    &:hover>div{
+        display: block;
+    }
+};
