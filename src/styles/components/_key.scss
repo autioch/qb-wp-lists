@@ -1,0 +1,10 @@
+.qb-wp-lists-key{
+    @extend %input;
+    font-size: 0.9em;
+    max-width: 50%;
+
+    @media screen and (max-width: 600px){
+        max-width: none;
+        width: 99%;
+    }
+}
