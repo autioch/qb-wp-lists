@@ -1,9 +1,8 @@
 <?php
 
-class zkwpInstall {
-
+class zkwpInstall
+{
     /**
-     *
      * @var wpdb
      */
     private $db;
@@ -18,10 +17,9 @@ class zkwpInstall {
 
     public function install() {
         foreach ($this->collections as $id => $collection) {
-            $columns = array();
+            $columns = [];
             foreach ($collection['fields'] as $name => $field) {
-
-                $col = $name . ' ' . ( array_key_exists('db', $field) ? $field['db'] : 'varchar(128)' );
+                $col = $name . ' ' . (array_key_exists('db', $field) ? $field['db'] : 'varchar(128)');
 
                 if (array_key_exists('required', $field) && $field['required']) {
                     $col .= ' NOT NULL';
@@ -31,7 +29,7 @@ class zkwpInstall {
             }
             $this->createTable($id, $columns);
         }
-        $this->createTable('contact_nonces', array('nonce varchar(128),'));
+        $this->createTable('contact_nonces', ['nonce varchar(128),']);
         $this->runUpdates();
     }
 
@@ -42,7 +40,7 @@ class zkwpInstall {
                 active int(1) NOT NULL default 1,
                 PRIMARY KEY  (id)
                 ) ' . $this->getCharset() . ';';
-        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         dbDelta($sql);
     }
 
@@ -68,7 +66,7 @@ class zkwpInstall {
     private function getCharset() {
         $charset_collate = '';
 
-        if (method_exists($this->db, "get_charset_collate")) {
+        if (method_exists($this->db, 'get_charset_collate')) {
             $charset_collate = $this->db->get_charset_collate();
         } else {
             if (!empty($this->db->charset)) {
@@ -78,18 +76,19 @@ class zkwpInstall {
                 $charset_collate .= " COLLATE $this->db->collate";
             }
         }
+
         return $charset_collate;
     }
 
-    /* updates - for each update create new function, place it right before runUpdates, 
+    /* updates - for each update create new function, place it right before runUpdates,
      * and add it to runUpdates */
 
     private function update0() {
-        $this->fillTable('breed', array('name_pl', 'name_en'));
-        $this->fillTable('group', array('name_pl'));
-        $this->fillTable('fee', array('name', 'description', 'value'));
-        $this->fillTable('club', array('name', 'leader', 'support', 'duty'));
-        $this->fillTable('kennel', array('name', 'description', 'breed_id', 'address', 'city', 'postalcode', 'contact', 'phone', 'email', 'website', 'image'));
+        $this->fillTable('breed', ['name_pl', 'name_en']);
+        $this->fillTable('group', ['name_pl']);
+        $this->fillTable('fee', ['name', 'description', 'value']);
+        $this->fillTable('club', ['name', 'leader', 'support', 'duty']);
+        $this->fillTable('kennel', ['name', 'description', 'breed_id', 'address', 'city', 'postalcode', 'contact', 'phone', 'email', 'website', 'image']);
         $alter = 'ADD CONSTRAINT kennel_breed_id FOREIGN KEY (breed_id) REFERENCES ' . $this->prefix . 'breed' . '(id)';
         $this->alterTable('kennel', $alter, 'zkwp_db_kennel_altered');
 
@@ -98,12 +97,10 @@ class zkwpInstall {
     }
 
     private function update1() {
-        
     }
 
     private function runUpdates() {
         $this->update0();
         //$this->update1();
     }
-
 }

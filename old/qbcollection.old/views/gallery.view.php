@@ -23,7 +23,7 @@
                 if ($item->city) {
                     echo $item->city, ', ';
                 }
-                echo date("d.m.Y", strtotime($item->event_date))
+                echo date('d.m.Y', strtotime($item->event_date))
                 ?>
             </p>
             <?php if ($item->description): ?>

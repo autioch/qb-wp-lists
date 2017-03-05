@@ -1,14 +1,8 @@
 <?php
 
-class zkwpAdminPup {
-
-    private $options = array();
-
-    private function getOptions() {
-        $this->options['department'] = get_option('zkwp_pup_department', '09');
-        $this->options['cache_duration'] = get_option('zkwp_pup_cache_duration', 30);
-        $this->options['cache'] = get_option('zkwp_pup_cache', ZKWP_TOOLS_DIR . 'pup-cache');
-    }
+class zkwpAdminPup
+{
+    private $options = [];
 
     public function getPage() {
         $this->getOptions();
@@ -52,4 +46,9 @@ class zkwpAdminPup {
         , '<br/>Lokalizacja pliku cache, który przechowuje listę szczeniąt.';
     }
 
+    private function getOptions() {
+        $this->options['department'] = get_option('zkwp_pup_department', '09');
+        $this->options['cache_duration'] = get_option('zkwp_pup_cache_duration', 30);
+        $this->options['cache'] = get_option('zkwp_pup_cache', ZKWP_TOOLS_DIR . 'pup-cache');
+    }
 }

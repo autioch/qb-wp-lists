@@ -1,9 +1,8 @@
 <?php
 
-class qbColInstall {
-
+class qbColInstall
+{
     /**
-     *
      * @var wpdb
      */
     private $db;
@@ -20,7 +19,6 @@ class qbColInstall {
 
     public function install() {
         foreach ($this->collections as $id => $collection) {
-
             $tableName = $this->prefix . $id;
 
             $columns = $this->parseFields($collection['fields']);
@@ -36,14 +34,15 @@ class qbColInstall {
     }
 
     private function parseFields($fields) {
-        $columns = array();
+        $columns = [];
         foreach ($fields as $name => $field) {
-            $col = $name . ' ' . ( array_key_exists('db', $field) ? $field['db'] : 'varchar(128)' );
+            $col = $name . ' ' . (array_key_exists('db', $field) ? $field['db'] : 'varchar(128)');
             if (array_key_exists('required', $field) && $field['required']) {
                 $col .= ' NOT NULL';
             }
             $columns[] = $col . ',';
         }
+
         return $columns;
     }
 
@@ -54,7 +53,7 @@ class qbColInstall {
                 active int(1) NOT NULL default 1,
                 PRIMARY KEY  (id)
                 ) ' . $this->charset . ';';
-        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         dbDelta($sql);
     }
 
@@ -78,5 +77,4 @@ class qbColInstall {
             }
         }
     }
-
 }

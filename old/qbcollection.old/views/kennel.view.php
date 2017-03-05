@@ -8,15 +8,15 @@
 
             <?php
             $this->echoField($item, 'description');
-            $this->echoField($item, 'contact'); 
+            $this->echoField($item, 'contact');
 
-            $address = $this->fieldArrayToValues($item, array('postal_code', 'city', 'address'));
-            if (strlen($address) > 0) {
+            $address = $this->fieldArrayToValues($item, ['postal_code', 'city', 'address']);
+            if (mb_strlen($address) > 0) {
                 echo 'adres:<br />', $address, '<br />';
             }
 
-            $contact2 = $this->fieldArrayToValues($item, array('phone', 'email', 'website'), '<br />');
-            if (strlen($contact2) > 0) {
+            $contact2 = $this->fieldArrayToValues($item, ['phone', 'email', 'website'], '<br />');
+            if (mb_strlen($contact2) > 0) {
                 echo '<p>', $contact2, '</p>';
             }
             ?>

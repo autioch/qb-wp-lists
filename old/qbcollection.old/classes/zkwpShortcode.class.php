@@ -2,8 +2,8 @@
 
 /* TODO rewrite */
 
-class zkwpShortcode {
-
+class zkwpShortcode
+{
     private $breeds = ' b.name_pl as breed_pl, b.name_en as breed_en, b.name_de as breed_de ';
     private $pupLoader;
     private $extraParam = null;
@@ -18,22 +18,6 @@ class zkwpShortcode {
         $this->registerShortcodes();
     }
 
-    private function getSelectedKey() {
-        $id = filter_input(INPUT_GET, 'zkwp-tools-key');
-        $this->selectedKey = is_numeric($id) ? $id : -1;
-    }
-
-    private function registerShortcodes() {
-        add_shortcode('zkwp_tools_champion', array($this, 'championCallback'));
-        add_shortcode('zkwp_tools_reproductor', array($this, 'reproductorCallback'));
-        add_shortcode('zkwp_tools_club', array($this, 'clubCallback'));
-        add_shortcode('zkwp_tools_fee', array($this, 'feeCallback'));
-        add_shortcode('zkwp_tools_kennel', array($this, 'kennelCallback'));
-        add_shortcode('zkwp_tools_show', array($this, 'showCallback'));
-        add_shortcode('zkwp_tools_pup', array($this, 'pupCallback'));
-        add_shortcode('zkwp_tools_gallery', array($this, 'galleryCallback'));
-    }
-
     /* CALLBACKS */
 
     public function championCallback() {
@@ -44,6 +28,7 @@ class zkwpShortcode {
                 . ' WHERE c.active = 1 ORDER BY g.id ASC, g.name_pl ASC, b.name ASC';
         ob_start();
         $this->fillView('champion', $sql);
+
         return ob_get_clean();
     }
 
@@ -60,6 +45,7 @@ class zkwpShortcode {
             $sql = 'SELECT * FROM ' . ZKWP_TABLE . 'reproductor where active = 1 and breed_id = ' . $this->selectedKey;
             $this->fillView('reproductor', $sql);
         }
+
         return ob_get_clean();
     }
 
@@ -68,6 +54,7 @@ class zkwpShortcode {
         $sql = 'SELECT * FROM ' . ZKWP_TABLE . 'club where active = 1';
         ob_start();
         $this->fillView('club', $sql);
+
         return ob_get_clean();
     }
 
@@ -76,6 +63,7 @@ class zkwpShortcode {
         $sql = 'SELECT * FROM ' . ZKWP_TABLE . 'fee where active = 1';
         ob_start();
         $this->fillView('fee', $sql);
+
         return ob_get_clean();
     }
 
@@ -91,6 +79,7 @@ class zkwpShortcode {
             $sql = 'SELECT * FROM ' . ZKWP_TABLE . 'kennel where active = 1 and breed_id = ' . $this->selectedKey;
             $this->fillView('kennel', $sql);
         }
+
         return ob_get_clean();
     }
 
@@ -105,13 +94,14 @@ class zkwpShortcode {
             $sql = 'SELECT * FROM ' . ZKWP_TABLE . 'show where id=' . $this->selectedKey;
             $this->fillView('showsingle', $sql);
         } else {
-            $a = shortcode_atts(array('year' => false), $atts);
+            $a = shortcode_atts(['year' => false], $atts);
             $queryEnd = $a['year'] ? '= ' . $a['year'] : '< YEAR(CURDATE())';
             $sql = 'SELECT id, show_date, city, title FROM ' . ZKWP_TABLE . 'show '
                     . ' WHERE active = 1 and YEAR(show_date) ' . $queryEnd . ' ORDER BY show_date DESC';
             $this->extraParam = $a['year'] ? 'Wystawy na rok ' . $a['year'] : 'Wystawy archiwalne';
             $this->fillView('showlist', $sql);
         }
+
         return ob_get_clean();
     }
 
@@ -122,6 +112,7 @@ class zkwpShortcode {
                 . ' WHERE active = 1 ORDER BY event_date DESC';
         ob_start();
         $this->fillView('gallery', $sql);
+
         return ob_get_clean();
     }
 
@@ -130,7 +121,24 @@ class zkwpShortcode {
             $this->pupLoader = zkwp_load_class('zkwpPupLoader', true);
             $this->enqueueResources();
         }
+
         return $this->pupLoader->getData();
+    }
+
+    private function getSelectedKey() {
+        $id = filter_input(INPUT_GET, 'zkwp-tools-key');
+        $this->selectedKey = is_numeric($id) ? $id : -1;
+    }
+
+    private function registerShortcodes() {
+        add_shortcode('zkwp_tools_champion', [$this, 'championCallback']);
+        add_shortcode('zkwp_tools_reproductor', [$this, 'reproductorCallback']);
+        add_shortcode('zkwp_tools_club', [$this, 'clubCallback']);
+        add_shortcode('zkwp_tools_fee', [$this, 'feeCallback']);
+        add_shortcode('zkwp_tools_kennel', [$this, 'kennelCallback']);
+        add_shortcode('zkwp_tools_show', [$this, 'showCallback']);
+        add_shortcode('zkwp_tools_pup', [$this, 'pupCallback']);
+        add_shortcode('zkwp_tools_gallery', [$this, 'galleryCallback']);
     }
 
     /* MISC FUNCTIONS */
@@ -147,10 +155,9 @@ class zkwpShortcode {
     private function enqueueResources() {
         /* enqueue jquery and jquery.datatables to enhance the table we will produce */
         wp_enqueue_script('jquery');
-        wp_enqueue_script('jquery.datatables', ZKWP_TOOLS_URL . 'public/jquery.dataTables.min.js', array('jquery'));
-        wp_enqueue_script('zkwp_tools', ZKWP_TOOLS_URL . 'public/zkwp_tools.min.js', array('jquery'));
+        wp_enqueue_script('jquery.datatables', ZKWP_TOOLS_URL . 'public/jquery.dataTables.min.js', ['jquery']);
+        wp_enqueue_script('zkwp_tools', ZKWP_TOOLS_URL . 'public/zkwp_tools.min.js', ['jquery']);
         //wp_enqueue_script('jquery.unveil', ZKWP_TOOLS_URL . 'public/jquery.unveil.js', array('jquery'));
         wp_enqueue_style('zkwp_tools', ZKWP_TOOLS_URL . 'public/zkwp_tools.css');
     }
-
 }

@@ -1,7 +1,7 @@
 <?php
 
-class zkwpPupLoader {
-
+class zkwpPupLoader
+{
     private $cacheDuration;
     private $cacheFile;
     private $data;
@@ -9,7 +9,7 @@ class zkwpPupLoader {
     private $sourceEncoding;
     private $url;
 
-    function __construct(/* array $options = array() */) {
+    public function __construct(/* array $options = array() */) {
 //        $default = array(
 //            'cacheDuration' => 1800, /* 60s * 30 */
 //            'cacheFile' => 'pup-cache',
@@ -19,13 +19,13 @@ class zkwpPupLoader {
 //        );
 //        $options = array_replace($default, $options);
 
-        $options = array(
+        $options = [
             'cacheDuration' => get_option('zkwp_pup_cache_duration', 30) * MINUTE_IN_SECONDS,
             'cacheFile' => get_option('zkwp_pup_cache', ZKWP_TOOLS_DIR . 'pup/resources/pup-cache'),
             'divisionId' => get_option('zkwp_pup_department', '09'),
             'sourceEncoding' => 'ISO-8859-2',
-            'url' => 'http://www.zkwp.pl/zg/index.php?n=szczenieta'
-        );
+            'url' => 'http://www.zkwp.pl/zg/index.php?n=szczenieta',
+        ];
 
         $this->cacheDuration = $options['cacheDuration'];
         $this->cacheFile = $options['cacheFile'];
@@ -42,6 +42,7 @@ class zkwpPupLoader {
         $this->parseToJson();
         $this->format();
         $this->setCacheData();
+
         return $this->data;
     }
 
@@ -51,6 +52,7 @@ class zkwpPupLoader {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -63,35 +65,34 @@ class zkwpPupLoader {
     }
 
     private function getZKWPData() {
-        $postData = array('szukajoddzial' => $this->divisionId);
-        $options = array(
-            'http' => array(
+        $postData = ['szukajoddzial' => $this->divisionId];
+        $options = [
+            'http' => [
                 'header' => "Content-type: application/x-www-form-urlencoded\r\n",
                 'method' => 'POST',
                 'timeout' => 10,
                 'content' => http_build_query($postData),
-            ),
-        );
+            ],
+        ];
         try {
             $this->data = file_get_contents($this->url, false, stream_context_create($options));
         } catch (Exception $e) {
             echo '<br/> ops...' . $e->getMessage();
             $this->data = '';
+
             return;
         }
-        $this->data = iconv($this->sourceEncoding, "UTF-8", $this->data);
+        $this->data = iconv($this->sourceEncoding, 'UTF-8', $this->data);
     }
 
     private function parseToJson() {
-        
-        
         /* cut important part */
-        $from = strpos($this->data, '<td width=300 bgcolor=ffffff align=left>');
-        $to = strpos($this->data, '      </table>') - $from;
-        $this->data = substr($this->data, $from, $to);
-        
+        $from = mb_strpos($this->data, '<td width=300 bgcolor=ffffff align=left>');
+        $to = mb_strpos($this->data, '      </table>') - $from;
+        $this->data = mb_substr($this->data, $from, $to);
+
         /* ZKWP "markup" is a terrible, terrible thing */
-        $search = array(
+        $search = [
             "<td width=300 bgcolor=ffffff align=left>\n<font size=2 color=666666 face=Verdana, Arial, Helvetica, sans-serif>\n", //name
             "\n</td>\n<td  bgcolor=ffffff align=left>\n<font size=2 color=666666 face=Verdana, Arial, Helvetica, sans-serif> \n",  //phone
             "\n</td>\n<td width=80 bgcolor=ffffff align=left>\n<font size=2 color=666666 face=Verdana, Arial, Helvetica, sans-serif>", //website
@@ -104,9 +105,9 @@ class zkwpPupLoader {
             '<font size=2 color=666666 face=Verdana, Arial, Helvetica, sans-serif>',
             '<font ',
             //'<\/?[^>]+>',
-        );
+        ];
 
-        $replace = array(
+        $replace = [
             '{"name":"',
             '","phone":"',
             '","website":"',
@@ -118,34 +119,32 @@ class zkwpPupLoader {
             '',
             '{"name":"',
             '{"name":"',
-        );
+        ];
         $this->data = str_replace($search, $replace, $this->data);
-		
+
         //echo '<pre> TEST';
-		//print_r($this->data);
-        //echo '</pre>';		
-		
+        //print_r($this->data);
+        //echo '</pre>';
+
         $this->data = preg_replace('/(<\/?[^>]+>|\n)/', '', $this->data);
         /* format to valid json
          * in previous version, class was returning json for ajax call */
-        $this->data = '[' . substr(trim($this->data), 0, -1) . ']';
-
+        $this->data = '[' . mb_substr(trim($this->data), 0, -1) . ']';
     }
 
     private function format() {
-	
         //echo '<pre> TEST';
         //print_r($this->data);
-        //echo '</pre>';	
-		
+        //echo '</pre>';
+
         $this->data = json_decode($this->data, true);
 
         //echo '<pre> TEST';
         //print_r($this->data);
-        //echo '</pre>';		
-		
+        //echo '</pre>';
+
         ob_start();
-		//echo 'Strona w trakcie przebudowy. Zapraszamy wkrótce';
+        //echo 'Strona w trakcie przebudowy. Zapraszamy wkrótce';
         include ZKWP_TOOLS_DIR . 'views/pup.view.php';
         $this->data = ob_get_clean();
     }
@@ -153,7 +152,7 @@ class zkwpPupLoader {
     private function formatPhoneNumbers($phones) {
         $list = explode(';', $phones);
         foreach ($list as $p) {
-            echo preg_replace("/(.{1,3})/", "$1&nbsp;", preg_replace('/[^0-9\+]/', '', $p)), ' ';
+            echo preg_replace('/(.{1,3})/', '$1&nbsp;', preg_replace('/[^0-9\+]/', '', $p)), ' ';
         }
     }
 
@@ -180,5 +179,4 @@ class zkwpPupLoader {
         </a>             
         <?php
     }
-
 }

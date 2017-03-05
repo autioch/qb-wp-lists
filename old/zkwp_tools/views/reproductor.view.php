@@ -24,13 +24,13 @@
 
         $this->echoField($item, 'person', 'Właściciel: '); //reproduktor, champion
 
-        $address = $this->fieldArrayToValues($item, array('postal_code', 'city', 'address'), ' ');
-        if (strlen($address) > 0) {
+        $address = $this->fieldArrayToValues($item, ['postal_code', 'city', 'address'], ' ');
+        if (mb_strlen($address) > 0) {
             echo '<p>', $address, '</p>';
         }
 
-        $contact = $this->fieldArrayToValues($item, array('phone', 'email', 'website'), '<br/>');
-        if (strlen($contact) > 0) {
+        $contact = $this->fieldArrayToValues($item, ['phone', 'email', 'website'], '<br/>');
+        if (mb_strlen($contact) > 0) {
             echo '<p>', $contact, '</p>';
         }
         ?>

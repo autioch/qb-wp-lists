@@ -7,7 +7,7 @@
             $selected = '';
             if ($this->selectedKey == $item->optionkey) {
                 $selected = ' selected="selected"';
-                $translations = $this->fieldArrayToValues($item, array('breed_pl', 'breed_en', 'breed_de'));
+                $translations = $this->fieldArrayToValues($item, ['breed_pl', 'breed_en', 'breed_de']);
             }
             ?>
             <option value="<?php echo $item->optionkey ?>" <?php echo $selected ?> >
@@ -18,6 +18,6 @@
     <button type="submit" class="js-plain-search">Szukaj</button>
 </form>
 <?php
-if (strlen($translations) > 0) {
+if (mb_strlen($translations) > 0) {
     echo '<p><em>', $translations, '</em></p>';
 }

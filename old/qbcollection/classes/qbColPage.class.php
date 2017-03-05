@@ -2,22 +2,19 @@
 
 /* TODO rewrite, handle delete and save and edit buttons on edit/add page */
 
-class qbColPage {
-
+class qbColPage
+{
     /**
-     *
-     * @var qbColDatabase 
+     * @var qbColDatabase
      */
     private $db;
 
     /**
-     *
-     * @var qbColMessage 
+     * @var qbColMessage
      */
     private $message;
 
     /**
-     *
      * @var qbColForm
      */
     private $form;
@@ -63,6 +60,7 @@ class qbColPage {
         $form = qbColLoadClass('qbColForm', true, $this->collection);
         if ($form->validate()) {
             $this->db->save($form->getAll());
+
             return $this->listAction();
         }
 
@@ -83,5 +81,4 @@ class qbColPage {
         }
         $this->listAction();
     }
-
 }

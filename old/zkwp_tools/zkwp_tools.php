@@ -10,7 +10,6 @@
   License: GPL2
  */
 
-
 /* aktualna wersja pluginu */
 define('ZKWP_TOOLS', '0.37');
 
@@ -30,6 +29,7 @@ define('ZKWP_TABLE', $wpdb->prefix . 'zkwp_');
 function zkwp_load_class($class, $create = false, $arg = null) {
     /* Autoloaders are not welcome in da Wordpress world */
     !class_exists($class) && require_once ZKWP_TOOLS_DIR . 'classes/' . $class . '.class.php';
+
     return $create ? new $class($arg) : true;
 }
 
@@ -38,10 +38,8 @@ include_once ZKWP_TOOLS_DIR . 'resources/forms.php';
 zkwp_load_class('qbWebForm');
 
 if (is_admin()) {
-
     $zkwpAdmin = zkwp_load_class('zkwpAdmin', true, $zkwpCollections);
 } else {
-
     $zkwpShortcode = zkwp_load_class('zkwpShortcode', true, $zkwpCollections);
     $zkwpContactForm = zkwp_load_class('zkwpContactForm', true, $zkwpForms);
 }

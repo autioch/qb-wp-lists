@@ -3,7 +3,7 @@
 /*
  * File uninstalling the plugin
  * removes all options, all data
- * 
+ *
  */
 
 if (

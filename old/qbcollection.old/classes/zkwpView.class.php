@@ -1,7 +1,7 @@
 <?php
 
-class zkwpView {
-
+class zkwpView
+{
     public function render($view, $query) {
         global $wpdb;
         $this->itemList = $wpdb->get_results($query);
@@ -9,7 +9,7 @@ class zkwpView {
     }
 
     public function fieldArrayToValues($item, $fields, $implode = ', ') {
-        $result = array();
+        $result = [];
         foreach ($fields as $f) {
             if ($item->$f) {
                 if ($f == 'email') {
@@ -23,6 +23,7 @@ class zkwpView {
                 }
             }
         }
+
         return implode($implode, $result);
     }
 
@@ -34,7 +35,6 @@ class zkwpView {
 
     public function echoField($item, $id, $label = false) {
         if ($item->$id) {
-
             if ($label) {
                 echo '<p>', $label;
             }
@@ -71,12 +71,13 @@ class zkwpView {
         echo '</ul>';
     }
 
-    public function hasFields($item, $fields = array()) {
+    public function hasFields($item, $fields = []) {
         foreach ($fields as $f) {
-            if (strlen($item->$f) > 0) {
+            if (mb_strlen($item->$f) > 0) {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -97,11 +98,10 @@ class zkwpView {
             if ($label) {
                 echo '<p>', $label;
             }
-            echo date("d.m.Y", strtotime($item->$id));
+            echo date('d.m.Y', strtotime($item->$id));
             if ($label) {
                 echo '</p>';
             }
         }
     }
-
 }

@@ -2,22 +2,22 @@
 
 class qbColAdmin
 {
-    private $collections = array();
+    private $collections = [];
 
     public function __construct()
     {
-        $this->collections = include_once QBCOL_DIR.'collections.php';
-        add_action('admin_menu', array($this,    'adminMenu'));
-        add_action('admin_print_footer_scripts', array($this, 'adminPrintFooterScripts'));
-        register_activation_hook(QBCOL, array($this, 'activationHook'));
-        register_deactivation_hook(QBCOL, array($this, 'deactivationHook'));
+        $this->collections = include_once QBCOL_DIR . 'collections.php';
+        add_action('admin_menu', [$this,    'adminMenu']);
+        add_action('admin_print_footer_scripts', [$this, 'adminPrintFooterScripts']);
+        register_activation_hook(QBCOL, [$this, 'activationHook']);
+        register_deactivation_hook(QBCOL, [$this, 'deactivationHook']);
     }
 
     public function adminMenu()
     {
-        add_menu_page('Kolekcje', 'Kolekcje', 'edit_others_posts', 'qbcol', array($this, 'menuPage'), null, 4);
+        add_menu_page('Kolekcje', 'Kolekcje', 'edit_others_posts', 'qbcol', [$this, 'menuPage'], null, 4);
         foreach ($this->collections as $c) {
-            add_submenu_page('qbcol', $c['title'], $c['title'], 'edit_others_posts', 'qbcol_'.$c['id'], array($this, 'submenuPage'));
+            add_submenu_page('qbcol', $c['title'], $c['title'], 'edit_others_posts', 'qbcol_' . $c['id'], [$this, 'submenuPage']);
         }
     }
 

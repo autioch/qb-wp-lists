@@ -2,8 +2,8 @@
 
 /* TODO rewrite, handle delete and save and edit buttons on edit/add page */
 
-class qbColPage {
-
+class qbColPage
+{
     public function __construct($collection) {
         global $wpdb;
         $this->db = $wpdb;
@@ -48,13 +48,13 @@ class qbColPage {
     private function showTitle($action) {
         echo '<h3 class="zkwp-tools-title">', $this->title;
         switch ($action) {
-            case 'list' :
+            case 'list':
                 echo ' (', $this->db->num_rows, ') ';
                 break;
-            case 'add' :
+            case 'add':
                 echo ' - dodawanie';
                 break;
-            case 'edit' :
+            case 'edit':
                 echo ' - edycja';
                 break;
         }
@@ -71,6 +71,7 @@ class qbColPage {
         if ($form->validate()) {
             $this->dbSaveItem($form->getAll());
             $this->showItemList();
+
             return 'list';
         } else {
             if ($form->sent) {
@@ -78,6 +79,7 @@ class qbColPage {
                 $form->stripSlashes();
             }
             $form->render();
+
             return is_null($item) ? 'add' : 'edit';
         }
     }
@@ -95,9 +97,9 @@ class qbColPage {
     }
 
     private function dbAddItem($values) {
-        $nonempty = array();
+        $nonempty = [];
         foreach ($values as $key => $val) {
-            if (strlen($val) > 0) {
+            if (mb_strlen($val) > 0) {
                 $nonempty[$key] = $val;
             }
         }
@@ -110,10 +112,10 @@ class qbColPage {
 
     private function dbUpdateItem($values) {
         /* TODO
-         * compare $values with definition of table from collection, 
+         * compare $values with definition of table from collection,
          * set NULL for cols that are not present i $values.
          */
-        if (false === $this->db->update($this->table, $values, array('id' => $values['id']))) {
+        if (false === $this->db->update($this->table, $values, ['id' => $values['id']])) {
             $this->addMessage('Wystąpił błąd podczas aktualizacji rekordu.');
         } else {
             $this->addMessage('Pomyślnie zmieniono rekord.', 'success');
@@ -124,18 +126,18 @@ class qbColPage {
         $item = $this->db->get_row('SELECT * FROM ' . $this->table . ' WHERE id = ' . $id);
         if (is_null($item)) {
             $this->addMessage('Nie znaleziono rekordu o id = ' . $id . '.');
-            return null;
+
+            return;
         } else {
             return $item;
         }
     }
 
     private function dbDeleteItem($id) {
-        if (false === $this->db->delete($this->table, array('id' => $id))) {
+        if (false === $this->db->delete($this->table, ['id' => $id])) {
             $this->addMessage('Nie można usunąć wybranego rekordu. Upewnij się, że nigdzie nie jest wykorzystywany.');
         } else {
             $this->addMessage('Pomyślnie usunięto rekord.', 'success');
         }
     }
-
 }

@@ -2,10 +2,10 @@
 
 /* TODO sort out title, messages, names used overall and in views */
 
-class zkwpCollectionPage {
-
+class zkwpCollectionPage
+{
     /**
-     * @var wpdb 
+     * @var wpdb
      */
     protected $db;
     protected $table;
@@ -29,12 +29,12 @@ class zkwpCollectionPage {
         $this->list = $collection['list'];
 
         $this->titleBackup = $collection['title'];
-        $this->queries = array(
+        $this->queries = [
             'group_id_options' => 'SELECT id, name_pl FROM ' . ZKWP_TABLE . 'group ORDER BY name_pl',
             'breed_id_options' => 'SELECT id, name FROM ' . ZKWP_TABLE . 'breed ORDER BY name_pl',
-            'sex_options' => array('0' => 'Pies', '1' => 'Suka')
-        );
-        $this->messages = array();
+            'sex_options' => ['0' => 'Pies', '1' => 'Suka'],
+        ];
+        $this->messages = [];
     }
 
     public function getPage() {
@@ -66,6 +66,7 @@ class zkwpCollectionPage {
             if (isset($_POST['qbca_form']) && isset($_POST['qbca_form']['submitreturn'])) {
                 $form->stripSlashes();
                 echo $this->getTitle();
+
                 return $form->render();
             } else {
                 $this->getItemList();
@@ -76,12 +77,13 @@ class zkwpCollectionPage {
                 $form->stripSlashes();
             }
             echo $this->getTitle();
+
             return $form->render();
         }
     }
 
     public function addMessage($message, $type = 'error') {
-        $this->messages[] = array('type' => $type, 'message' => $message);
+        $this->messages[] = ['type' => $type, 'message' => $message];
     }
 
     public function showMessages() {
@@ -90,20 +92,22 @@ class zkwpCollectionPage {
             foreach ($this->messages as $message) {
                 $result .= '<div class="qbca-message qbca-' . $message['type'] . '">' . $message['message'] . '</div>';
             }
+
             return $result;
         }
+
         return '';
     }
 
     public function saveItem($values) {
         if (isset($values['id']) && is_numeric($values['id'])) {
-            $this->db->update($this->table, $values, array('id' => $values['id']));
+            $this->db->update($this->table, $values, ['id' => $values['id']]);
             $this->addMessage('Pomyślnie zmieniono rekord.', 'success');
         } else {
-            $nonempty = array();
+            $nonempty = [];
 
             foreach ($values as $key => $val) {
-                if (strlen($val) > 0) {
+                if (mb_strlen($val) > 0) {
                     $nonempty[$key] = $val;
                 }
             }
@@ -126,7 +130,7 @@ class zkwpCollectionPage {
     public function deleteItem() {
         $id = filter_input(INPUT_GET, 'id');
         if (is_numeric($id)) {
-            if (false === $this->db->delete($this->table, array('id' => $id))) {
+            if (false === $this->db->delete($this->table, ['id' => $id])) {
                 $this->addMessage('Nie można usunąć wybranego rekordu. Upewnij się, że nigdzie nie jest wykorzystywany.');
             } else {
                 $this->addMessage('Pomyślnie usunięto rekord.', 'success');
@@ -139,11 +143,11 @@ class zkwpCollectionPage {
         if (isset($this->item) && !is_null($this->item)) {
             return $this->item->$valueId;
         }
+
         return '';
     }
 
     public function getForm() {
-
         $target = '?page=' . $this->page . '&action=';
 
         if ($this->getItem() && $this->getVal('id')) {
@@ -200,19 +204,21 @@ class zkwpCollectionPage {
             $item = $this->db->get_row('SELECT * FROM ' . $this->table . ' WHERE id = ' . $id);
             if (!is_null($item)) {
                 $this->item = $item;
+
                 return true;
             }
         }
+
         return false;
     }
 
     public function getSelectValues($key) {
         $result = $this->db->get_results($this->queries[$key . '_options'], ARRAY_N);
-        $list = array();
+        $list = [];
         foreach ($result as $val) {
             $list[$val[0]] = $val[1];
         }
+
         return $list;
     }
-
 }

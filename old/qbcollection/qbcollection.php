@@ -27,6 +27,7 @@ define('QBCOL_TABLE', $wpdb->prefix . 'qbcol_');
 function qbColLoadClass($class, $create = false, $arg = null) {
     /* Autoloaders are not welcome in da Wordpress world */
     !class_exists($class) && require_once QBCOL_DIR . 'classes/' . $class . '.class.php';
+
     return $create ? new $class($arg) : true;
 }
 

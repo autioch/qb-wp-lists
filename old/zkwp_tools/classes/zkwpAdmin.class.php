@@ -2,8 +2,8 @@
 
 /* TODO rewrite */
 
-class zkwpAdmin {
-
+class zkwpAdmin
+{
     private $pup = null;
     private $install = null;
     private $collections = null;
@@ -11,24 +11,24 @@ class zkwpAdmin {
     public function __construct($collections) {
         $this->pup = zkwp_load_class('zkwpAdminPup', true);
         $this->collections = $collections;
-        add_action('admin_init', array($this, 'adminInit'));
-        add_action('admin_menu', array($this, 'adminMenu'));
-        add_action('admin_print_footer_scripts', array($this, 'footerScripts'));
-        register_activation_hook(ZKWP_TOOLS_FILE, array($this, 'activation'));
-        register_deactivation_hook(ZKWP_TOOLS_FILE, array($this, 'deactivation'));
+        add_action('admin_init', [$this, 'adminInit']);
+        add_action('admin_menu', [$this, 'adminMenu']);
+        add_action('admin_print_footer_scripts', [$this, 'footerScripts']);
+        register_activation_hook(ZKWP_TOOLS_FILE, [$this, 'activation']);
+        register_deactivation_hook(ZKWP_TOOLS_FILE, [$this, 'deactivation']);
     }
 
     public function adminInit() {
         $pageName = 'zkwp_pup';
         $sectionId = 'zkwp_pup_options_section';
         $optionGroup = 'zkwp_pup_options';
-        add_settings_section($sectionId, 'Szczenięta', array($this->pup, 'sectionCallback'), $pageName);
-        register_setting($optionGroup, 'zkwp_pup_cache_duration', array($this->pup, 'sanitize'));
-        register_setting($optionGroup, 'zkwp_pup_department', array($this->pup, 'sanitize'));
-        register_setting($optionGroup, 'zkwp_pup_cache', array($this->pup, 'sanitize'));
-        add_settings_field('zkwp_pup_cache_duration', 'Odświeżanie', array($this->pup, 'cacheDurationCallback'), $pageName, $sectionId);
-        add_settings_field('zkwp_pup_department', 'Oddział', array($this->pup, 'departmentCallback'), $pageName, $sectionId);
-        add_settings_field('zkwp_pup_cache', 'Plik cache', array($this->pup, 'cacheCallback'), $pageName, $sectionId);
+        add_settings_section($sectionId, 'Szczenięta', [$this->pup, 'sectionCallback'], $pageName);
+        register_setting($optionGroup, 'zkwp_pup_cache_duration', [$this->pup, 'sanitize']);
+        register_setting($optionGroup, 'zkwp_pup_department', [$this->pup, 'sanitize']);
+        register_setting($optionGroup, 'zkwp_pup_cache', [$this->pup, 'sanitize']);
+        add_settings_field('zkwp_pup_cache_duration', 'Odświeżanie', [$this->pup, 'cacheDurationCallback'], $pageName, $sectionId);
+        add_settings_field('zkwp_pup_department', 'Oddział', [$this->pup, 'departmentCallback'], $pageName, $sectionId);
+        add_settings_field('zkwp_pup_cache', 'Plik cache', [$this->pup, 'cacheCallback'], $pageName, $sectionId);
     }
 
     public function adminMenu() {
@@ -39,17 +39,17 @@ class zkwpAdmin {
          * by calling the add_submenu_page function the first time with the parent_slug
          * and menu_slug parameters being given the same value.
          *  */
-        add_menu_page('ZKWP Tools', 'ZKWP Tools', 'edit_others_posts', 'zkwp_champion', array($this, 'getSubmenuPage'), null, 3);
-        add_submenu_page('zkwp_champion', 'Czempiony', 'Czempiony', 'edit_others_posts', 'zkwp_champion', array($this, 'getSubmenuPage'));
-        add_submenu_page('zkwp_champion', 'Reproduktory', 'Reproduktory', 'edit_others_posts', 'zkwp_reproductor', array($this, 'getSubmenuPage'));
-        add_submenu_page('zkwp_champion', 'Hodowle', 'Hodowle', 'edit_others_posts', 'zkwp_kennel', array($this, 'getSubmenuPage'));
-        add_submenu_page('zkwp_champion', 'Wystawy', 'Wystawy', 'edit_others_posts', 'zkwp_show', array($this, 'getSubmenuPage'));
-        add_submenu_page('zkwp_champion', 'Kluby i sekcje', 'Kluby i sekcje', 'edit_others_posts', 'zkwp_club', array($this, 'getSubmenuPage'));
-        add_submenu_page('zkwp_champion', 'Opłaty', 'Opłaty', 'edit_others_posts', 'zkwp_fee', array($this, 'getSubmenuPage'));
-        add_submenu_page('zkwp_champion', 'Galerie', 'Galerie', 'edit_others_posts', 'zkwp_gallery', array($this, 'getSubmenuPage'));
-        add_submenu_page('zkwp_champion', 'Rasy', 'Rasy', 'edit_others_posts', 'zkwp_breed', array($this, 'getSubmenuPage'));
-        add_submenu_page('zkwp_champion', 'Grupy', 'Grupy', 'edit_others_posts', 'zkwp_group', array($this, 'getSubmenuPage'));
-        add_submenu_page('zkwp_champion', 'Szczenięta', 'Szczenięta', 'edit_others_posts', 'zkwp_pup', array($this, 'pupOptions'));
+        add_menu_page('ZKWP Tools', 'ZKWP Tools', 'edit_others_posts', 'zkwp_champion', [$this, 'getSubmenuPage'], null, 3);
+        add_submenu_page('zkwp_champion', 'Czempiony', 'Czempiony', 'edit_others_posts', 'zkwp_champion', [$this, 'getSubmenuPage']);
+        add_submenu_page('zkwp_champion', 'Reproduktory', 'Reproduktory', 'edit_others_posts', 'zkwp_reproductor', [$this, 'getSubmenuPage']);
+        add_submenu_page('zkwp_champion', 'Hodowle', 'Hodowle', 'edit_others_posts', 'zkwp_kennel', [$this, 'getSubmenuPage']);
+        add_submenu_page('zkwp_champion', 'Wystawy', 'Wystawy', 'edit_others_posts', 'zkwp_show', [$this, 'getSubmenuPage']);
+        add_submenu_page('zkwp_champion', 'Kluby i sekcje', 'Kluby i sekcje', 'edit_others_posts', 'zkwp_club', [$this, 'getSubmenuPage']);
+        add_submenu_page('zkwp_champion', 'Opłaty', 'Opłaty', 'edit_others_posts', 'zkwp_fee', [$this, 'getSubmenuPage']);
+        add_submenu_page('zkwp_champion', 'Galerie', 'Galerie', 'edit_others_posts', 'zkwp_gallery', [$this, 'getSubmenuPage']);
+        add_submenu_page('zkwp_champion', 'Rasy', 'Rasy', 'edit_others_posts', 'zkwp_breed', [$this, 'getSubmenuPage']);
+        add_submenu_page('zkwp_champion', 'Grupy', 'Grupy', 'edit_others_posts', 'zkwp_group', [$this, 'getSubmenuPage']);
+        add_submenu_page('zkwp_champion', 'Szczenięta', 'Szczenięta', 'edit_others_posts', 'zkwp_pup', [$this, 'pupOptions']);
     }
 
     public function footerScripts() {
@@ -98,16 +98,15 @@ class zkwpAdmin {
 
     public function pupOptions() {
         $this->pup->getPage();
-        $this -> enqueueResources();
+        $this->enqueueResources();
     }
 
     public function enqueueResources() {
         /* enqueue jquery and jquery.datatables to enhance the table we will produce */
         wp_enqueue_script('jquery');
         wp_enqueue_script('jquery-ui-datepicker');
-        wp_enqueue_script('jquery.datatables', ZKWP_TOOLS_URL . 'public/jquery.dataTables.min.js', array('jquery'));
-        wp_enqueue_script('zkwp_tools', ZKWP_TOOLS_URL . 'public/zkwp_tools.min.js', array('jquery', 'jquery-ui-datepicker'));
+        wp_enqueue_script('jquery.datatables', ZKWP_TOOLS_URL . 'public/jquery.dataTables.min.js', ['jquery']);
+        wp_enqueue_script('zkwp_tools', ZKWP_TOOLS_URL . 'public/zkwp_tools.min.js', ['jquery', 'jquery-ui-datepicker']);
         wp_enqueue_style('zkwp_tools', ZKWP_TOOLS_URL . 'public/zkwp_tools.css');
     }
-
 }

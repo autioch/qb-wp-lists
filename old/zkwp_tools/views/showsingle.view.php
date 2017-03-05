@@ -28,8 +28,8 @@
             <h4>Zgłoszenia</h4>
             <?php
             if ($item->app_date_check && $item->app_date && ($item->app_date > 0)) {
-                $today = date("Ymd");
-                $appDate = date("Ymd", strtotime($item->app_date));
+                $today = date('Ymd');
+                $appDate = date('Ymd', strtotime($item->app_date));
                 $this->formatDate($item, 'app_date', 'Termin nadsyłania zgłoszeń' . (($today > $appDate) ? ' upłynął dnia ' : ': '));
             }
 

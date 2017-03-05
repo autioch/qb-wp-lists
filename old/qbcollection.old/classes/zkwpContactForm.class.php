@@ -2,10 +2,10 @@
 
 /* One form per page */
 
-class zkwpContactForm {
-
+class zkwpContactForm
+{
     /**
-     * @var qbWebForm 
+     * @var qbWebForm
      */
     private $form = null;
 
@@ -15,7 +15,7 @@ class zkwpContactForm {
     private $collection;
 
     /**
-     * @var wpdb 
+     * @var wpdb
      */
     private $db;
 
@@ -31,8 +31,8 @@ class zkwpContactForm {
         $this->db = $wpdb;
         $this->collections = $forms;
 
-        add_action('plugins_loaded', array($this, 'sniffForm'));
-        add_shortcode('zkwp_tools_contact', array($this, 'shortcodeCallback'));
+        add_action('plugins_loaded', [$this, 'sniffForm']);
+        add_shortcode('zkwp_tools_contact', [$this, 'shortcodeCallback']);
     }
 
     public function sniffForm() {
@@ -55,12 +55,13 @@ class zkwpContactForm {
         }
 
         if (is_null($this->form)) {
-            $a = shortcode_atts(array('collection' => false), $atts);
+            $a = shortcode_atts(['collection' => false], $atts);
             $this->setForm($a['collection']);
         }
 
         ob_start();
         $this->form->render();
+
         return ob_get_clean();
     }
 
@@ -77,15 +78,14 @@ class zkwpContactForm {
             }
         }
         $content .= '<tr><td>Nonce (dev)</td><td>' . $this->form->get('nonce') . '</td>';
-        $content .='</table><br/><br/>Data wysłania zgłoszenia: ' . date('Y.m.d, h:i:s');
+        $content .= '</table><br/><br/>Data wysłania zgłoszenia: ' . date('Y.m.d, h:i:s');
 
-        $headers = array();
+        $headers = [];
         $headers[] = 'From: ZKwP Koszalin <no-reply@zkwp-koszalin.pl>';
         $headers[] = 'Content-Type: text/html; charset=UTF-8';
 
         wp_mail('autioch@gmail.com', $title, $content, $headers);
         wp_mail('sunan@o2.pl', $title, $content, $headers);
-
 
         header('Location: ' . get_the_permalink() . '?zcfc=' . md5('qbcontacform' . rand(1, 300)));
         exit;
@@ -97,17 +97,20 @@ class zkwpContactForm {
         /* is nonce ok */
         if (preg_match('/[^A-Za-z0-9]/', $nonce)) {
             $this->nonceError = true;
+
             return false;
         }
 
         /* is nonce already recorded */
         if (!is_null($this->db->get_row('SELECT * FROM ' . ZKWP_TABLE . "contact_nonces WHERE nonce = '" . $nonce . "'"))) {
             $this->nonceError = true;
+
             return false;
         }
 
         /* record nonce */
-        $this->db->insert(ZKWP_TABLE . 'contact_nonces', array('nonce' => $nonce));
+        $this->db->insert(ZKWP_TABLE . 'contact_nonces', ['nonce' => $nonce]);
+
         return true;
     }
 
@@ -120,7 +123,7 @@ class zkwpContactForm {
         $this->enqueueResources();
 
         $this->form = new qbWebForm($this->formId, '', 'post');
-        $this->form->add_radio('record_type', 'Typ zgłoszenia', array('nowy' => 'Nowy wpis', 'aktualizacja' => 'Aktualizacja'), '', true);
+        $this->form->add_radio('record_type', 'Typ zgłoszenia', ['nowy' => 'Nowy wpis', 'aktualizacja' => 'Aktualizacja'], '', true);
         foreach ($this->collection['fields'] as $key => $val) {
             //$this->form->add_text($key, $val['title'], '', array_key_exists('required', $val));
             $type = array_key_exists('form', $val) ? $val['form'] : 'text';
@@ -140,6 +143,7 @@ class zkwpContactForm {
         $this->form->add_hidden('nonce', 'nonce', $this->getNonce(), false);
         $this->form->add_antybot('antybot', 'Proszę wpisać nasze miasto', 'Koszalin', 'Proszę podać, w jakim mieście znajduje się nasz oddział');
         $this->form->add_submit('submit', 'Wyślij zgłoszenie');
+
         return $this->form;
     }
 
@@ -154,5 +158,4 @@ class zkwpContactForm {
     private function enqueueResources() {
         //wp_enqueue_style('zkwp_tools', ZKWP_TOOLS_URL . 'public/zkwp_tools.css');
     }
-
 }

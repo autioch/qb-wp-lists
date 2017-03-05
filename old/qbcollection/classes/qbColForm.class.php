@@ -2,14 +2,15 @@
 
 qbColLoadClass('qbWebForm');
 
-class qbColForm extends qbWebForm {
-
+class qbColForm extends qbWebForm
+{
     /**
-     * Retrieves an array of values for every standard and hidden field. 
-     * @return array Pairs of identificators and values for each field.
+     * Retrieves an array of values for every standard and hidden field.
+     *
+     * @return array pairs of identificators and values for each field
      */
     public function getAll() {
-        $values = array();
+        $values = [];
         foreach ($this->fields as $key => $value) {
             if ($value['type'] != 'submit') {
                 $values[$key] = stripslashes($this->get($key));
@@ -18,6 +19,7 @@ class qbColForm extends qbWebForm {
         foreach ($this->hidden as $key => $value) {
             $values[$key] = $this->hidden[$key]['value'];
         }
+
         return $values;
     }
 
@@ -31,30 +33,31 @@ class qbColForm extends qbWebForm {
     }
 
     /**
-     * Retrieves an array of values for every standard and hidden field. 
-     * @return array Pairs of identificators and values for each field.
+     * Retrieves an array of values for every standard and hidden field.
+     *
+     * @return array pairs of identificators and values for each field
      */
     public function getAllDb() {
-        $values = array();
+        $values = [];
         foreach ($this->fields as $key => $value) {
             if ($value['type'] != 'submit') {
                 $values[$key] = stripslashes($this->get($key));
-                if (strlen($values[$key]) == 0) {
+                if (mb_strlen($values[$key]) == 0) {
                     $values[$key] = 'NULL';
                 }
             }
         }
         foreach ($this->hidden as $key => $value) {
             $values[$key] = $this->hidden[$key]['value'];
-            if (strlen($values[$key]) == 0) {
+            if (mb_strlen($values[$key]) == 0) {
                 $values[$key] = 'NULL';
             }
         }
+
         return $values;
     }
 
     private function getForm($item) {
-
         $target = '?page=' . $this->page . '&action=';
 
         if (is_null($item)) {
@@ -75,6 +78,7 @@ class qbColForm extends qbWebForm {
             //$form->add_submit('submitreturn', 'Zapisz i wróc do edycji');
             //$form->add_submit('delete', 'Usuń');
         }
+
         return $form;
     }
 
@@ -104,22 +108,23 @@ class qbColForm extends qbWebForm {
         if (!is_null($item) && isset($item->$id)) {
             return $item->$id;
         }
+
         return '';
     }
 
     private function getFieldOptions($key) {
         if (!array_key_exists($key, $this->fieldOptions)) {
-            return array();
+            return [];
         }
         if (is_array($this->fieldOptions[$key])) {
             return $this->fieldOptions[$key];
         }
         $result = $this->db->get_results($this->fieldOptions[$key], ARRAY_N);
-        $list = array();
+        $list = [];
         foreach ($result as $val) {
             $list[$val[0]] = $val[1];
         }
+
         return $list;
     }
-
 }

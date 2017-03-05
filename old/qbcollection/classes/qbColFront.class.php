@@ -2,8 +2,8 @@
 
 /* TODO rewrite getting and using selected key */
 
-class qbColFront {
-
+class qbColFront
+{
     private $selectedKey = -1;
 
     public function __construct($collections) {
@@ -14,18 +14,9 @@ class qbColFront {
         $this->registerShortcodes();
     }
 
-    private function getSelectedKey() {
-        $id = filter_input(INPUT_GET, 'zkwp-tools-key');
-        $this->selectedKey = is_numeric($id) ? $id : -1;
-    }
-
-    private function registerShortcodes() {
-        add_shortcode('qbcol', array($this, 'qbColCallback'));
-    }
-
     public function qbColCallback($atts) {
         $this->enqueueResources();
-        $a = shortcode_atts(array('collection' => false), $atts);
+        $a = shortcode_atts(['collection' => false], $atts);
         $col = $this->collections[$a['collection']];
         ob_start();
         if (array_key_exists('frontSelectQuery', $col)) {
@@ -36,7 +27,17 @@ class qbColFront {
         } else {
             $this->fillView('list', $col['front']['list'], $col['id']);
         }
+
         return ob_get_clean();
+    }
+
+    private function getSelectedKey() {
+        $id = filter_input(INPUT_GET, 'zkwp-tools-key');
+        $this->selectedKey = is_numeric($id) ? $id : -1;
+    }
+
+    private function registerShortcodes() {
+        add_shortcode('qbcol', [$this, 'qbColCallback']);
     }
 
     private function fillView($view, $query, $id) {
@@ -64,5 +65,4 @@ class qbColFront {
         //wp_enqueue_script('jquery.unveil', ZKWP_TOOLS_URL . 'public/jquery.unveil.js', array('jquery'));
         //wp_enqueue_style('zkwp_tools', ZKWP_TOOLS_URL . 'public/zkwp_tools.css');
     }
-
 }

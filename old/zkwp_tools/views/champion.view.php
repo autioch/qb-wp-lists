@@ -35,8 +35,8 @@ foreach ($this->itemList as $item):
 
         <p>Rasa: <?php echo $item->breed_name ?>
             <?php
-            $translations = $this->fieldArrayToValues($item, array('breed_pl', 'breed_en', 'breed_de'));
-            if (strlen($translations) > 0) {
+            $translations = $this->fieldArrayToValues($item, ['breed_pl', 'breed_en', 'breed_de']);
+            if (mb_strlen($translations) > 0) {
                 echo ' ( <em> ', $translations, ' </em> )';
             }
             ?>

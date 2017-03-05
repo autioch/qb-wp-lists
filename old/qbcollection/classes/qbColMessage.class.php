@@ -1,12 +1,12 @@
 <?php
 
-class qbColMessage {
-
+class qbColMessage
+{
     public function add($message, $type = 'error') {
         if (empty($this->messages)) {
-            $this->messages = array();
+            $this->messages = [];
         }
-        $this->messages[] = array('type' => $type, 'message' => $message);
+        $this->messages[] = ['type' => $type, 'message' => $message];
     }
 
     public function show() {
@@ -15,9 +15,10 @@ class qbColMessage {
             foreach ($this->messages as $message) {
                 $result .= '<div class="zkwp-tools-message zkwp-' . $message['type'] . '">' . $message['message'] . '</div>';
             }
+
             return $result;
         }
+
         return '';
     }
-
 }
