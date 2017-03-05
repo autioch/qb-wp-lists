@@ -2,14 +2,16 @@
 
 class qbColMessage
 {
-    public function add($message, $type = 'error') {
+    public function add($message, $type = 'error')
+    {
         if (empty($this->messages)) {
             $this->messages = [];
         }
         $this->messages[] = ['type' => $type, 'message' => $message];
     }
 
-    public function show() {
+    public function show()
+    {
         if (count($this->messages) > 0) {
             $result = '';
             foreach ($this->messages as $message) {

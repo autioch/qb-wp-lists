@@ -19,7 +19,8 @@ class qbColPage
      */
     private $form;
 
-    public function __construct($collection) {
+    public function __construct($collection)
+    {
         $this->collection = $collection;
         $this->listColumns = $collection['listColumns'];
         $this->id = $collection['id'];
@@ -27,7 +28,8 @@ class qbColPage
         $this->db = qbColLoadClass('qbColDatabase', true, $collection);
     }
 
-    public function getPage() {
+    public function getPage()
+    {
         $action = filter_input(INPUT_GET, 'action');
 
         switch ($action) {
@@ -43,12 +45,14 @@ class qbColPage
         }
     }
 
-    private function listAction() {
+    private function listAction()
+    {
         $itemList = $this->db->getList($this->id);
         include QBCOL_DIR . 'views/qbColPage.list.view.php';
     }
 
-    private function editAction() {
+    private function editAction()
+    {
         $id = filter_input(INPUT_GET, 'id');
         if (is_numeric($id)) {
             $item = $this->dbGetItem($id);
@@ -72,7 +76,8 @@ class qbColPage
         $form->render();
     }
 
-    private function deleteAction() {
+    private function deleteAction()
+    {
         $id = filter_input(INPUT_GET, 'id');
         if ($this->db->delete($this->id, $id)) {
             $this->message->add('Nie można usunąć wybranego rekordu. Upewnij się, że nigdzie nie jest wykorzystywany.');

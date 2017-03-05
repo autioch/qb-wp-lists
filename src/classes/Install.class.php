@@ -7,15 +7,17 @@ class qbWpListsInstall
      */
     private $db;
     private $collections;
-    private $alterKey = 'qb_wp_lists_alter_';
+    private $alterKey = QBWPLISTS_ID . 'alter_';
 
-    public function __construct($collections) {
+    public function __construct($collections)
+    {
         global $wpdb;
         $this->db = $wpdb;
         $this->collections = $collections;
     }
 
-    public function install() {
+    public function install()
+    {
         $this->charset = $this->getCharset();
         foreach ($this->collections as $id => $collection) {
             $columns = [];
@@ -33,7 +35,8 @@ class qbWpListsInstall
         $this->createTable('contact_nonces', ['nonce varchar(128),']);
     }
 
-    private function createTable($name, array $columns) {
+    private function createTable($name, array $columns)
+    {
         $sql = 'CREATE TABLE ' . QBWPLISTS_TABLE . $name . ' (
                 id int(5) NOT NULL AUTO_INCREMENT,
                 ' . implode("\n", $columns) . '
@@ -44,7 +47,8 @@ class qbWpListsInstall
         dbDelta($sql);
     }
 
-    private function getCharset() {
+    private function getCharset()
+    {
         $charset_collate = '';
 
         if (method_exists($this->db, 'get_charset_collate')) {

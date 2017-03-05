@@ -9,7 +9,8 @@ class qbColForm extends qbWebForm
      *
      * @return array pairs of identificators and values for each field
      */
-    public function getAll() {
+    public function getAll()
+    {
         $values = [];
         foreach ($this->fields as $key => $value) {
             if ($value['type'] != 'submit') {
@@ -23,7 +24,8 @@ class qbColForm extends qbWebForm
         return $values;
     }
 
-    public function stripSlashes() {
+    public function stripSlashes()
+    {
         foreach ($this->fields as $key => $value) {
             $this->set($key, stripslashes($this->get($key)));
         }
@@ -37,7 +39,8 @@ class qbColForm extends qbWebForm
      *
      * @return array pairs of identificators and values for each field
      */
-    public function getAllDb() {
+    public function getAllDb()
+    {
         $values = [];
         foreach ($this->fields as $key => $value) {
             if ($value['type'] != 'submit') {
@@ -57,7 +60,8 @@ class qbColForm extends qbWebForm
         return $values;
     }
 
-    private function getForm($item) {
+    private function getForm($item)
+    {
         $target = '?page=' . $this->page . '&action=';
 
         if (is_null($item)) {
@@ -82,7 +86,8 @@ class qbColForm extends qbWebForm
         return $form;
     }
 
-    private function fillForm($form, $item) {
+    private function fillForm($form, $item)
+    {
         foreach ($this->fields as $key => $val) {
             $type = array_key_exists('form', $val) ? $val['form'] : 'text';
             $req = array_key_exists('required', $val) ? $val['required'] : false;
@@ -104,7 +109,8 @@ class qbColForm extends qbWebForm
         }
     }
 
-    private function getItemVal($item, $id) {
+    private function getItemVal($item, $id)
+    {
         if (!is_null($item) && isset($item->$id)) {
             return $item->$id;
         }
@@ -112,7 +118,8 @@ class qbColForm extends qbWebForm
         return '';
     }
 
-    private function getFieldOptions($key) {
+    private function getFieldOptions($key)
+    {
         if (!array_key_exists($key, $this->fieldOptions)) {
             return [];
         }

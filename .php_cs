@@ -10,7 +10,7 @@ return PhpCsFixer\Config::create()
         '@Symfony' => true,
         '@PSR2' => true,
         'array_syntax' => ['syntax' => 'short'],
-        'braces' => false,
+        'braces' => true,
         'class_keyword_remove' => true,
         'combine_consecutive_unsets' => true,
         'concat_space' => ['spacing' => 'one'],

@@ -16,13 +16,14 @@ class qbWpListsAdminPage
     protected $fields;
     protected $messages;
 
-    public function __construct($collection) {
+    public function __construct($collection)
+    {
         global $wpdb;
         $this->db = $wpdb;
         $this->db->show_errors();
         $this->title = $collection['title'];
         $this->table = QBWPLISTS_TABLE . $collection['id'];
-        $this->page = 'qb_wp_lists_' . $collection['id'];
+        $this->page = QBWPLISTS_ID . $collection['id'];
         $this->fields = $collection['fields'];
         $this->listColumns = $collection['listColumns'];
         $this->list = $collection['list'];
@@ -31,7 +32,8 @@ class qbWpListsAdminPage
         $this->messages = [];
     }
 
-    public function getPage() {
+    public function getPage()
+    {
         switch (filter_input(INPUT_GET, 'action')) {
             case 'add':
                 $this->title .= ' - dodawanie';
@@ -50,7 +52,8 @@ class qbWpListsAdminPage
         }
     }
 
-    public function editItem() {
+    public function editItem()
+    {
         if (isset($_POST['qbca_form']) && isset($_POST['qbca_form']['delete'])) {
             return $this->deleteItem();
         }
@@ -76,11 +79,13 @@ class qbWpListsAdminPage
         }
     }
 
-    public function addMessage($message, $type = 'error') {
+    public function addMessage($message, $type = 'error')
+    {
         $this->messages[] = ['type' => $type, 'message' => $message];
     }
 
-    public function showMessages() {
+    public function showMessages()
+    {
         if (count($this->messages) > 0) {
             $result = '';
             foreach ($this->messages as $message) {
@@ -93,7 +98,8 @@ class qbWpListsAdminPage
         return '';
     }
 
-    public function saveItem($values) {
+    public function saveItem($values)
+    {
         if (isset($values['id']) && is_numeric($values['id'])) {
             $this->db->update($this->table, $values, ['id' => $values['id']]);
             $this->addMessage('Pomyślnie zmieniono rekord.', 'success');
@@ -110,18 +116,20 @@ class qbWpListsAdminPage
         }
     }
 
-    public function getTitle() {
+    public function getTitle()
+    {
         return '<h3>' . $this->title . '</h3>' . $this->showMessages();
     }
 
-    public function getItemList() {
+    public function getItemList()
+    {
         $this->title = $this->titleBackup;
-        //echo '<br/>', $this->list;
         $itemList = $this->db->get_results($this->list);
         include qbWpListsFindTemplate('adminPage');
     }
 
-    public function deleteItem() {
+    public function deleteItem()
+    {
         $id = filter_input(INPUT_GET, 'id');
         if (is_numeric($id)) {
             if (false === $this->db->delete($this->table, ['id' => $id])) {
@@ -133,7 +141,8 @@ class qbWpListsAdminPage
         $this->getItemList();
     }
 
-    public function getVal($valueId) {
+    public function getVal($valueId)
+    {
         if (isset($this->item) && !is_null($this->item)) {
             return $this->item->$valueId;
         }
@@ -141,7 +150,8 @@ class qbWpListsAdminPage
         return '';
     }
 
-    public function getForm() {
+    public function getForm()
+    {
         $target = '?page=' . $this->page . '&action=';
 
         if ($this->getItem() && $this->getVal('id')) {
@@ -192,7 +202,8 @@ class qbWpListsAdminPage
         return $form;
     }
 
-    public function getItem() {
+    public function getItem()
+    {
         $id = filter_input(INPUT_GET, 'id');
         if (is_numeric($id)) {
             $item = $this->db->get_row('SELECT * FROM ' . $this->table . ' WHERE id = ' . $id);
@@ -206,7 +217,8 @@ class qbWpListsAdminPage
         return false;
     }
 
-    public function getSelectValues($key) {
+    public function getSelectValues($key)
+    {
         $result = $this->db->get_results('SELECT id, name FROM ' . QBWPLISTS_TABLE . mb_substr($key, 0, -3) . ' ORDER BY name', ARRAY_N);
         $list = [];
         foreach ($result as $val) {

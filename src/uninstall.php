@@ -14,7 +14,3 @@ if (
     status_header(404);
     exit;
 }
-
-// Delete all options
-//delete_option('qb_test_setting');
-//delete_option('qb_test_db_version');

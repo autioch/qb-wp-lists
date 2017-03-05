@@ -69,7 +69,7 @@ class qbWebForm
     private $method;
 
     /**
-     * @var array or $_GET, based on method
+     * @var array or, based on method
      */
     private $source;
 
@@ -81,7 +81,8 @@ class qbWebForm
      * @param string $method Source of the data to validate, defined as 'get' or 'post'
      * @param string $class  Class of the main container
      */
-    public function __construct($id = 'qbf', $action = '', $method = 'get', $class = 'qbf') {
+    public function __construct($id = 'qbf', $action = '', $method = 'get', $class = 'qbf')
+    {
         $this->id = $id;
         $this->action = $action;
         $this->method = $method;
@@ -103,7 +104,8 @@ class qbWebForm
      * @param string $required Is the field required for submition
      * @param string $value    Default value of the field
      */
-    public function add_antybot($id, $label, $expected, $error = '', $required = true, $value = '') {
+    public function add_antybot($id, $label, $expected, $error = '', $required = true, $value = '')
+    {
         $this->add($id, 'antybot', $label, $error, $required, $value);
         $this->fields[$id]['expected'] = $expected;
     }
@@ -117,7 +119,8 @@ class qbWebForm
      * @param string $required Is the field required for submition
      * @param string $value    Default value of the field
      */
-    public function add_checkbox($id, $label, $error = '', $required = true, $value = '') {
+    public function add_checkbox($id, $label, $error = '', $required = true, $value = '')
+    {
         $this->add($id, 'checkbox', $label, $error, $required, $value);
     }
 
@@ -132,7 +135,8 @@ class qbWebForm
      * @param string $required Is the field required for submition
      * @param string $value    Default value of the field
      */
-    public function add_email($id, $label, $compare = '', $error = '', $required = true, $value = '') {
+    public function add_email($id, $label, $compare = '', $error = '', $required = true, $value = '')
+    {
         $this->add($id, 'email', $label, $error, $required, $value);
         if (mb_strlen($compare) > 0) {
             $this->fields[$id]['compare'] = $compare;
@@ -147,7 +151,8 @@ class qbWebForm
      * @param string $error    Error displayed if value is invalid
      * @param string $required Is the field required for submition
      */
-    public function add_file($id, $label, $error = '', $required = true) {
+    public function add_file($id, $label, $error = '', $required = true)
+    {
         $this->add($id, 'file', $label, $error, $required, '');
     }
 
@@ -158,7 +163,8 @@ class qbWebForm
      * @param string $name  Name of the field
      * @param string $value Default value of the field
      */
-    public function add_hidden($id, $name, $value, $required = true) {
+    public function add_hidden($id, $name, $value, $required = true)
+    {
         $this->hidden[$id] = [
             'id' => $id,
             'type' => 'hidden',
@@ -175,7 +181,8 @@ class qbWebForm
      * @param string $id    Identificator of the field
      * @param string $label Displayed label of the field
      */
-    public function add_label($id, $label) {
+    public function add_label($id, $label)
+    {
         $this->add($id, 'label', $label, '', false, '');
     }
 
@@ -188,7 +195,8 @@ class qbWebForm
      * @param string $required Is the field required for submition
      * @param string $value    Default value of the field
      */
-    public function add_number($id, $label, $error = '', $required = true, $value = '') {
+    public function add_number($id, $label, $error = '', $required = true, $value = '')
+    {
         $this->add($id, 'number', $label, $error, $required, $value);
     }
 
@@ -200,7 +208,8 @@ class qbWebForm
      * @param string $error    Error displayed if value is invalid
      * @param string $required Is the field required for submition
      */
-    public function add_password($id, $label, $error = '', $required = true) {
+    public function add_password($id, $label, $error = '', $required = true)
+    {
         $this->add($id, 'password', $label, $error, $required, '');
     }
 
@@ -214,7 +223,8 @@ class qbWebForm
      * @param string $required Is the field required for submition
      * @param string $value    Default value of the field
      */
-    public function add_radio($id, $label, array $options, $error = '', $required = true, $value = '') {
+    public function add_radio($id, $label, array $options, $error = '', $required = true, $value = '')
+    {
         $this->add($id, 'radio', $label, $error, $required, $value);
         $this->fields[$id]['options'] = $options;
     }
@@ -229,7 +239,8 @@ class qbWebForm
      * @param string $required Is the field required for submition
      * @param string $value    Default value of the field
      */
-    public function add_select($id, $label, array $options, $error = '', $required = true, $value = '') {
+    public function add_select($id, $label, array $options, $error = '', $required = true, $value = '')
+    {
         $this->add($id, 'select', $label, $error, $required, $value);
         $this->fields[$id]['options'] = $options;
     }
@@ -241,7 +252,8 @@ class qbWebForm
      * @param string $label Displayed label of the field
      * @param string $value Default value of the field
      */
-    public function add_submit($id, $label) {
+    public function add_submit($id, $label)
+    {
         $this->submit[$id] = [
             'id' => trim($id),
             'type' => 'submit',
@@ -262,7 +274,8 @@ class qbWebForm
      * @param string $required Is the field required for submition
      * @param string $value    Default value of the field
      */
-    public function add_text($id, $label, $error = '', $required = true, $value = '') {
+    public function add_text($id, $label, $error = '', $required = true, $value = '')
+    {
         $this->add($id, 'text', $label, $error, $required, $value);
     }
 
@@ -275,7 +288,8 @@ class qbWebForm
      * @param string $required Is the field required for submition
      * @param string $value    Default value of the field
      */
-    public function add_textarea($id, $label, $error = '', $required = true, $value = '') {
+    public function add_textarea($id, $label, $error = '', $required = true, $value = '')
+    {
         $this->add($id, 'textarea', $label, $error, $required, $value);
     }
 
@@ -288,7 +302,8 @@ class qbWebForm
      * @param string $required Is the field required for submition
      * @param string $value    Default value of the field
      */
-    public function add_date($id, $label, $error = '', $required = true, $value = '') {
+    public function add_date($id, $label, $error = '', $required = true, $value = '')
+    {
         $this->add($id, 'date', $label, $error, $required, $value);
     }
 
@@ -301,7 +316,8 @@ class qbWebForm
      *
      * @return string value of the named field
      */
-    public function get($id) {
+    public function get($id)
+    {
         $f = $this->getField($id);
         if ($f['type'] == 'checkbox') {
             if (is_numeric($f['value']) && ($f['value'] > 0)) {
@@ -323,7 +339,8 @@ class qbWebForm
      *
      * @throws Exception if there's no standard or hidden field with selected identificator, throw exception
      */
-    public function getField($id) {
+    public function getField($id)
+    {
         if (is_array($id)) {
             return $id;
         }
@@ -345,7 +362,8 @@ class qbWebForm
      * @param string $id    identificator for the selected field
      * @param mixed  $value value to set for the selected field
      */
-    public function set($id, $value) {
+    public function set($id, $value)
+    {
         $this->fields[$id]['value'] = $value;
     }
 
@@ -356,7 +374,8 @@ class qbWebForm
      *
      * @param string $style Dom structure to use for the form. Uses 'table' or 'div'.
      */
-    public function render($style = 'table') {
+    public function render($style = 'table')
+    {
         echo $this->renderFormBegin();
         foreach ($this->hidden as $id => $field) {
             echo $this->renderField($field);
@@ -374,7 +393,8 @@ class qbWebForm
      *
      * @return string returns form tag with required values
      */
-    public function renderFormBegin() {
+    public function renderFormBegin()
+    {
         $form = '<form id="' . $this->id . '" method="' . $this->method . '"';
         if (mb_strlen($this->class) > 0) {
             $form .= ' class="' . $this->class . '"';
@@ -391,7 +411,8 @@ class qbWebForm
      *
      * @return string returns just enclosing tag for the form
      */
-    public function renderFormEnd() {
+    public function renderFormEnd()
+    {
         return "</form>\n";
     }
 
@@ -402,7 +423,8 @@ class qbWebForm
      *
      * @return string For any field other than radio, returns label tag enclosed in span. For radio, returns just span.
      */
-    public function renderLabel($id) {
+    public function renderLabel($id)
+    {
         $f = $this->getField($id);
         $label = '<span>';
         if ($f['type'] != 'radio') {
@@ -421,7 +443,8 @@ class qbWebForm
      *
      * @return string returns error value enclosed in span element
      */
-    public function renderError($id) {
+    public function renderError($id)
+    {
         $f = $this->getField($id);
 
         return '<span>' . ($f['valid'] ? '' : $f['error']) . '</span>';
@@ -434,7 +457,8 @@ class qbWebForm
      *
      * @return string returns generated DOM structure for the selected element
      */
-    public function renderField($id) {
+    public function renderField($id)
+    {
         $f = $this->getField($id);
         switch ($f['type']) {
             case 'checkbox':
@@ -460,7 +484,8 @@ class qbWebForm
      *
      * @return string Returns value or the whole attribute
      */
-    public function attrId($id, $full = true) {
+    public function attrId($id, $full = true)
+    {
         $f = $this->getField($id);
         $attr = $this->id . '-' . $f['id'];
         if ($full) {
@@ -478,7 +503,8 @@ class qbWebForm
      *
      * @return string Returns value or the whole attribute
      */
-    public function attrName($id, $full = true) {
+    public function attrName($id, $full = true)
+    {
         $f = $this->getField($id);
         $attr = $this->id . '[' . $f['id'] . ']';
         if ($full) {
@@ -496,7 +522,8 @@ class qbWebForm
      *
      * @return string Returns value or the whole attribute
      */
-    public function attrClass($id, $full = true) {
+    public function attrClass($id, $full = true)
+    {
         $f = $this->getField($id);
         $attr = 'qbf-' . $f['type'];
         if ($full) {
@@ -516,7 +543,8 @@ class qbWebForm
      *
      * @return bool sets and returns the state of the form
      */
-    public function validate() {
+    public function validate()
+    {
         $this->valid = $this->sent; // if not sent then not valid else validate :)
         if ($this->sent) {
             $this->validateFields();
@@ -533,7 +561,8 @@ class qbWebForm
      *
      * @return bool returns true if there's no validation for the type
      */
-    public function validateField($id) {
+    public function validateField($id)
+    {
         $f = $this->getField($id);
         switch ($f['type']) {
             case 'antybot': case 'hidden':
@@ -567,7 +596,8 @@ class qbWebForm
      * @param string $required Is the field required for submition
      * @param mixed  $value    Depending on the field type, this is the default value of the field
      */
-    private function add($id, $type, $label, $error, $required, $value) {
+    private function add($id, $type, $label, $error, $required, $value)
+    {
         $e = (mb_strlen(trim($error)) > 0) ? trim($error) : $this->errors[$type];
         $this->fields[$id] = [
             'id' => trim($id),
@@ -580,7 +610,8 @@ class qbWebForm
         ];
     }
 
-    private function renderForm_table() {
+    private function renderForm_table()
+    {
         ?>
         <table class="qbf-container" id="<?php echo $this->id ?>-container">
             <tbody>
@@ -605,9 +636,11 @@ class qbWebForm
             </tbody>
         </table>
         <?php
+
     }
 
-    private function renderForm_div() {
+    private function renderForm_div()
+    {
         ?>
         <div class="qbf-container" id="<?php echo $this->id ?>-container">
             <?php foreach ($this->fields as $id => $field): ?>
@@ -630,9 +663,11 @@ class qbWebForm
             </div>
         </div>
         <?php
+
     }
 
-    private function renderText($field) {
+    private function renderText($field)
+    {
         $noValue = ['file'];
         $ownType = ['file', 'hidden', 'submit', 'password'];
         $f = $this->getField($field);
@@ -645,7 +680,8 @@ class qbWebForm
         return $result . '>';
     }
 
-    private function renderCheckbox($field) {
+    private function renderCheckbox($field)
+    {
         $f = $this->getField($field);
         $checked = $f['value'] ? ' checked="checked"' : '';
         $def = '<input value="0"' . $this->attrName($f) . ' id="' . $this->attrId($f, false) . '_"' . ' type="hidden">';
@@ -654,7 +690,8 @@ class qbWebForm
         return $def . "\n" . $vis;
     }
 
-    private function renderRadio($field) {
+    private function renderRadio($field)
+    {
         $f = $this->getField($field);
         $result = '<ul>';
         foreach ($f['options'] as $key => $val) {
@@ -667,7 +704,8 @@ class qbWebForm
         return $result;
     }
 
-    private function renderSelect($field) {
+    private function renderSelect($field)
+    {
         $f = $this->getField($field);
         $result = '<select' . $this->attrName($f) . $this->attrClass($f) . $this->attrId($f) . '>';
         $result .= '<option value="-1"> </option>';
@@ -679,7 +717,8 @@ class qbWebForm
         return $result;
     }
 
-    private function validateFields() {
+    private function validateFields()
+    {
         foreach ($this->fields as $id => $field) {
             if ('' != trim($this->source[$this->id][$id])) {
                 $this->fields[$id]['value'] = trim($this->source[$this->id][$id]);
@@ -697,7 +736,8 @@ class qbWebForm
         }
     }
 
-    private function validateHidden() {
+    private function validateHidden()
+    {
         foreach ($this->hidden as $id => $field) {
             if ('' != trim($this->source[$this->id][$id])) {
                 $this->hidden[$id]['value'] = trim($this->source[$this->id][$id]);
@@ -716,13 +756,15 @@ class qbWebForm
         }
     }
 
-    private function validateDate($field) {
+    private function validateDate($field)
+    {
         $list = explode('-', $field['value']);
 
         return (count($list) === 3) ? checkdate($list[1], $list[2], $list[2]) : false; //wat?
     }
 
-    private function validateEmail($field) {
+    private function validateEmail($field)
+    {
         $result = preg_match('/^.+@.+\..{2,3}$/', $field['value']);
         $compare = true;
         if (isset($field['compare'])) {

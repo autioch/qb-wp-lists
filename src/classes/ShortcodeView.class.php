@@ -1,14 +1,16 @@
 <?php
 
-class qbWpListsView
+class qbWpListsShortcodeView
 {
-    public function render($view, $query) {
+    public function render($view, $datas)
+    {
         global $wpdb;
-        $this->itemList = $wpdb->get_results($query);
+        $this->datas = $datas;
         include qbWpListsFindTemplate($view);
     }
 
-    public function fieldArrayToValues($item, $fields, $implode = ', ') {
+    public function fieldArrayToValues($item, $fields, $implode = ', ')
+    {
         $result = [];
         foreach ($fields as $f) {
             if ($item->$f) {
@@ -27,13 +29,15 @@ class qbWpListsView
         return implode($implode, $result);
     }
 
-    public function echoImage($item) {
+    public function echoImage($item)
+    {
         if ($item->image) {
             echo '<img src="', QBWPLISTS_URL, 'public/images/loading.png" class="qbc-item-image" data-src="', $item->image, '" alt=""/>';
         }
     }
 
-    public function echoField($item, $id, $label = false) {
+    public function echoField($item, $id, $label = false)
+    {
         if ($item->$id) {
             if ($label) {
                 echo '<p>', $label;
@@ -45,14 +49,16 @@ class qbWpListsView
         }
     }
 
-    public function echoChapterLink($item, $id, $title) {
+    public function echoChapterLink($item, $id, $title)
+    {
         $check = $id . '_check';
         if ($item->$check && $item->$id) {
             echo '<li> <a href="#chapter-', $id, '">', $title, '</a> </li>';
         }
     }
 
-    public function echoChapter($item, $id, $title) {
+    public function echoChapter($item, $id, $title)
+    {
         $check = $id . '_check';
         if ($item->$check && $item->$id) {
             echo '<a name="chapter-', $id, '" id="chapter-', $id, '"></a>';
@@ -62,7 +68,8 @@ class qbWpListsView
         }
     }
 
-    public function echoList($string, $delimiter = ', ') {
+    public function echoList($string, $delimiter = ', ')
+    {
         $list = explode($delimiter, $string);
         echo '<ul>';
         foreach ($list as $item) {
@@ -71,7 +78,8 @@ class qbWpListsView
         echo '</ul>';
     }
 
-    public function hasFields($item, $fields = []) {
+    public function hasFields($item, $fields = [])
+    {
         foreach ($fields as $f) {
             if (mb_strlen($item->$f) > 0) {
                 return true;
@@ -81,19 +89,19 @@ class qbWpListsView
         return false;
     }
 
-    public function webLink($link) {
-        ?>
-        <a target="_blank" href="http://<?php echo $link ?>">
-            <?php echo $link ?>
-        </a>
-        <?php
+    public function webLink($link)
+    {
+        ?><a target="_blank" href="http://<?php echo $link ?>"><?php echo $link ?></a><?php
+
     }
 
-    public function pageTopLink() {
+    public function pageTopLink()
+    {
         echo '<p><a href="#page-top">Powrót na górę</a></p>';
     }
 
-    public function formatDate($item, $id, $label = false) {
+    public function formatDate($item, $id, $label = false)
+    {
         if ($item->$id) {
             if ($label) {
                 echo '<p>', $label;

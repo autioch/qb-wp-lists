@@ -9,40 +9,46 @@ class qbWpListsUpdate
      */
     private $db;
     private $collections;
-    private $alterKey = 'qb_wp_lists_alter_';
+    private $alterKey = QBWPLISTS_ID . 'alter_';
 
-    public function __construct($collections) {
+    public function __construct($collections)
+    {
         global $wpdb;
         $this->db = $wpdb;
         $this->collections = $collections;
     }
 
-    public function update() {
+    public function update()
+    {
         $this->runUpdates();
     }
 
-    private function alterTable($name, $alteration, $updateKey) {
-      if (!get_option($updateKey)) {
-        $sql = 'ALTER TABLE ' . QBWPLISTS_TABLE . $name . ' ' . $alteration;
-        $this->updateQuery($sql, $updateKey);
-      }
+    private function alterTable($name, $alteration, $updateKey)
+    {
+        if (!get_option($updateKey)) {
+            $sql = 'ALTER TABLE ' . QBWPLISTS_TABLE . $name . ' ' . $alteration;
+            $this->updateQuery($sql, $updateKey);
+        }
     }
 
-    private function fillTable($name, $fields, $updateKey) {
-      if (!get_option($updateKey)) {
-        $sql = 'INSERT INTO ' . QBWPLISTS_TABLE . $name . ' (`' . implode('`,`', $fields) . '`) '
+    private function fillTable($name, $fields, $updateKey)
+    {
+        if (!get_option($updateKey)) {
+            $sql = 'INSERT INTO ' . QBWPLISTS_TABLE . $name . ' (`' . implode('`,`', $fields) . '`) '
                 . ' VALUES ' . file_get_contents(QBWPLISTS_DIR . 'resources/' . $name . '.sql');
-        $this->updateQuery($sql, $updateKey);
-      }
+            $this->updateQuery($sql, $updateKey);
+        }
     }
 
-    private function updateQuery($sql, $updateKey) {
-      if ($this->db->query($sql)) {
-          update_option($updateKey, true);
-      }
+    private function updateQuery($sql, $updateKey)
+    {
+        if ($this->db->query($sql)) {
+            update_option($updateKey, true);
+        }
     }
 
-    private function getCharset() {
+    private function getCharset()
+    {
         $charset_collate = '';
 
         if (method_exists($this->db, 'get_charset_collate')) {
@@ -62,7 +68,8 @@ class qbWpListsUpdate
     /* updates - for each update create new function, place it right before runUpdates,
      * and add it to runUpdates */
 
-    private function update0() {
+    private function update0()
+    {
         $this->fillTable('breed', ['name_pl', 'name_en']);
         $this->fillTable('group', ['name_pl']);
         $this->fillTable('fee', ['name', 'description', 'value']);
@@ -75,10 +82,12 @@ class qbWpListsUpdate
         $this->alterTable('hound', $alter, 'zkwp_db_hound_altered');
     }
 
-    private function update1() {
+    private function update1()
+    {
     }
 
-    private function runUpdates() {
+    private function runUpdates()
+    {
         // $this->update0();
         //$this->update1();
     }

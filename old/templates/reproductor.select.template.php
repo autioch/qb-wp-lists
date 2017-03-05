@@ -14,20 +14,20 @@
                 }
                 /* actual item option */
                 $selected = '';
-                if ($this->selectedKey == $item->breed_id) {
+                if ($this->selectedId == $item->breed_id) {
                     $selected = ' selected="selected"';
                     $translations = $this->fieldArrayToValues($item, ['breed_pl', 'breed_en', 'breed_de']);
-                }
-                ?>
+                } ?>
                 <option value="<?php echo $item->breed_id ?>" <?php echo $selected ?> >
                     <?php echo $item->breed_name ?>
                 </option>
-            <?php } ?>
+            <?php 
+            } ?>
         </optgroup>
     </select>
     <button type="submit" class="js-plain-search">Szukaj</button>
 </form>
 <?php
 if (mb_strlen($translations) > 0) {
-    echo '<p><em>', $translations, '</em></p>';
-}
+                echo '<p><em>', $translations, '</em></p>';
+            }

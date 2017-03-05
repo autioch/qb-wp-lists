@@ -6,7 +6,8 @@ class qbColFront
 {
     private $selectedKey = -1;
 
-    public function __construct($collections) {
+    public function __construct($collections)
+    {
         global $wpdb;
         $this->db = $wpdb;
         $this->collections = $collections;
@@ -14,7 +15,8 @@ class qbColFront
         $this->registerShortcodes();
     }
 
-    public function qbColCallback($atts) {
+    public function qbColCallback($atts)
+    {
         $this->enqueueResources();
         $a = shortcode_atts(['collection' => false], $atts);
         $col = $this->collections[$a['collection']];
@@ -31,16 +33,19 @@ class qbColFront
         return ob_get_clean();
     }
 
-    private function getSelectedKey() {
+    private function getSelectedKey()
+    {
         $id = filter_input(INPUT_GET, 'zkwp-tools-key');
         $this->selectedKey = is_numeric($id) ? $id : -1;
     }
 
-    private function registerShortcodes() {
+    private function registerShortcodes()
+    {
         add_shortcode('qbcol', [$this, 'qbColCallback']);
     }
 
-    private function fillView($view, $query, $id) {
+    private function fillView($view, $query, $id)
+    {
         if (!isset($this->view)) {
             $this->view = qbColLoadClass('qbColFrontView', true);
             $this->view->selectedKey = $this->selectedKey;
@@ -48,7 +53,8 @@ class qbColFront
         $this->view->render($this->getViewFile($view, $id), $query);
     }
 
-    private function getViewFile($view, $id) {
+    private function getViewFile($view, $id)
+    {
         $colView = QBCOL_DIR . 'views/' . $id . '.' . $view . '.view.php';
         if (file_exists($colView)) {
             return $colView;
@@ -57,7 +63,8 @@ class qbColFront
         }
     }
 
-    private function enqueueResources() {
+    private function enqueueResources()
+    {
         /* enqueue jquery and jquery.datatables to enhance the table we will produce */
         //wp_enqueue_script('jquery');
         //wp_enqueue_script('jquery.datatables', ZKWP_TOOLS_URL . 'public/jquery.dataTables.min.js', array('jquery'));

@@ -9,7 +9,8 @@ class qbColInstall
     private $collections;
     private $charset;
 
-    public function __construct($collections) {
+    public function __construct($collections)
+    {
         global $wpdb;
         $this->db = $wpdb;
         $this->prefix = $wpdb->prefix . 'qbcol_';
@@ -17,7 +18,8 @@ class qbColInstall
         $this->setCharset();
     }
 
-    public function install() {
+    public function install()
+    {
         foreach ($this->collections as $id => $collection) {
             $tableName = $this->prefix . $id;
 
@@ -33,7 +35,8 @@ class qbColInstall
         }
     }
 
-    private function parseFields($fields) {
+    private function parseFields($fields)
+    {
         $columns = [];
         foreach ($fields as $name => $field) {
             $col = $name . ' ' . (array_key_exists('db', $field) ? $field['db'] : 'varchar(128)');
@@ -46,7 +49,8 @@ class qbColInstall
         return $columns;
     }
 
-    private function createTable($name, array $columns) {
+    private function createTable($name, array $columns)
+    {
         $sql = 'CREATE TABLE ' . $name . ' (
                 id int(5) NOT NULL AUTO_INCREMENT,
                 ' . implode("\n", $columns) . '
@@ -57,13 +61,15 @@ class qbColInstall
         dbDelta($sql);
     }
 
-    private function fillTable($name, $columns, $valuesFile) {
+    private function fillTable($name, $columns, $valuesFile)
+    {
         $sql = 'INSERT INTO ' . $name . ' (`' . implode('`,`', $columns) . '`) VALUES ';
         $this->db->query($sql . file_get_contents($valuesFile));
         rename($valuesFile, $valuesFile . date('Ymd.His'));
     }
 
-    private function setCharset() {
+    private function setCharset()
+    {
         $this->charset = '';
 
         if (method_exists($this->db, 'get_charset_collate')) {

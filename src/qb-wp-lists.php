@@ -22,21 +22,29 @@ define('QBWPLISTS_URL', plugin_dir_url(__FILE__));
 /* Main file. */
 define('QBWPLISTS_FILE', __FILE__);
 
+/* Generic resource prefix */
+define('QBWPLISTS_ID', 'qb_wp_lists_');
+
 /* Database tables prefix. */
 global $wpdb;
-define('QBWPLISTS_TABLE', $wpdb->prefix . 'qbwplists_');
+define('QBWPLISTS_TABLE', $wpdb->prefix . QBWPLISTS_ID);
 
 /* Wordpress doesn't like autoloaders, create our custom one. */
-function qbWpListsLoadClass($className, $create = false, $arg = null) {
-  $fullClassName = 'qbWpLists' . $className;
-  !class_exists($fullClassName) && require_once QBWPLISTS_DIR . 'classes\\' . $fullClassName . '.class.php';
+function qbWpListsLoadClass($className, $create = false, $arg = null)
+{
+    $fullClassName = 'qbWpLists' . $className;
 
-  return $create ? new $fullClassName($arg) : true;
+    if (!class_exists($fullClassName)) {
+        require_once QBWPLISTS_DIR . 'classes/' . $className . '.class.php';
+    }
+
+    return $create ? new $fullClassName($arg) : true;
 }
 
 /* Simplify getting templates */
-function qbWpListsFindTemplate($template) {
-  return QBWPLISTS_DIR . 'templates/' . $template . '.template.php';
+function qbWpListsFindTemplate($template)
+{
+    return QBWPLISTS_DIR . 'templates/' . $template . '.template.php';
 }
 
 /* Load definitions of the lists. */

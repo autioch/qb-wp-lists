@@ -21,19 +21,21 @@ class qbWpListsContact
      * @var array
      */
     private $collections;
-    private $formId = 'qb_wp_lists_contact';
+    private $formId = QBWPLISTS_ID . 'contact';
     private $nonceError = false;
 
-    public function __construct($forms) {
+    public function __construct($forms)
+    {
         global $wpdb;
         $this->db = $wpdb;
         $this->collections = $forms;
 
         add_action('plugins_loaded', [$this, 'sniffForm']);
-        add_shortcode('qb_wp_lists_contact', [$this, 'shortcodeCallback']);
+        add_shortcode(QBWPLISTS_ID . 'contact', [$this, 'shortcodeCallback']);
     }
 
-    public function sniffForm() {
+    public function sniffForm()
+    {
         $sent = filter_input(INPUT_POST, $this->formId, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
         if ($sent && $sent['collection']) {
             $this->setForm($sent['collection']);
@@ -43,7 +45,8 @@ class qbWpListsContact
         }
     }
 
-    public function shortcodeCallback($atts) {
+    public function shortcodeCallback($atts)
+    {
         if (filter_input(INPUT_GET, 'zcfc')) {
             return '<br>Dziękujemy, zgłoszenie zostało wysłane do administracji.';
         }
@@ -53,8 +56,7 @@ class qbWpListsContact
         }
 
         if (is_null($this->form)) {
-            $a = shortcode_atts(['collection' => false], $atts);
-            $this->setForm($a['collection']);
+            $this->setForm($atts['id']);
         }
 
         ob_start();
@@ -63,7 +65,9 @@ class qbWpListsContact
         return ob_get_clean();
     }
 
-    private function sendEmail() {
+    /* TODO Make this part more generic */
+    private function sendEmail()
+    {
         if (!$this->validateNonce()) {
             return;
         }
@@ -90,14 +94,12 @@ class qbWpListsContact
             wp_mail($mail, $title, $content, $headers);
         }
 
-        /* Ten adres jest do testowania, zbieram na razie wszystkie maile dla kontroli */
-        wp_mail('autioch@gmail.com', $title, $content, $headers);
-
         header('Location: ' . get_the_permalink() . '?zcfc=' . md5('qbcontacform' . rand(1, 300)));
         exit;
     }
 
-    private function validateNonce() {
+    private function validateNonce()
+    {
         $nonce = $this->form->get('nonce');
 
         /* is nonce ok */
@@ -120,16 +122,17 @@ class qbWpListsContact
         return true;
     }
 
-    private function getNonce() {
-        return md5('qb_wp_lists' . time());
+    private function getNonce()
+    {
+        return md5(QBWPLISTS_ID . time());
     }
 
-    private function setForm($id) {
-        $this->setCollection($id);
-        $this->enqueueResources();
+    private function setForm($id)
+    {
+        $this->collection = $this->collections[$id];
 
         $this->form = new qbWpListsForm($this->formId, '', 'post');
-        if (array_key_exists('addType', $this->collection) && $this->collection['addType']){
+        if (array_key_exists('addType', $this->collection) && $this->collection['addType']) {
             $this->form->add_radio('record_type', 'Typ zgłoszenia', ['nowy' => ' Nowy wpis', 'aktualizacja' => ' Aktualizacja'], '', true);
         }
         foreach ($this->collection['fields'] as $key => $val) {
@@ -155,39 +158,29 @@ class qbWpListsContact
         }
         $this->form->add_hidden('collection', 'collection', $this->collection['id']);
         $this->form->add_hidden('nonce', 'nonce', $this->getNonce(), false);
-        $this->form->add_antybot('antybot', 'Proszę wpisać nasze miasto', 'Koszalin', 'Proszę podać, w jakim mieście znajduje się nasz oddział');
-        $this->form->add_submit('submit', 'Wyślij zgłoszenie');
+        $this->form->add_submit('submit', $this->collection['submitLabel']);
 
         return $this->form;
     }
 
-    private function setCollection($id) {
-        if ($id && array_key_exists($id, $this->collections)) {
-            $this->collection = $this->collections[$id];
-            $this->fieldOptions = $this->collection['fieldOptions'];
-        } else {
-            $this->collection = $this->collections['contact'];
-            $this->fieldOptions = $this->collection['fieldOptions'];
-        }
-    }
-
-    private function getFieldOptions($key) {
-        if (!array_key_exists($key, $this->fieldOptions)) {
+    private function getFieldOptions($key)
+    {
+        if (!array_key_exists('fieldOptions', $this->collection)) {
             return [];
         }
-        if (is_array($this->fieldOptions[$key])) {
-            return $this->fieldOptions[$key];
+        if (!array_key_exists($key, $this->collection['fieldOptions'])) {
+            return [];
         }
-        $result = $this->db->get_results($this->fieldOptions[$key], ARRAY_N);
+        $options = $this->collection['fieldOptions'];
+        if (is_array($options)) {
+            return $options;
+        }
+        $result = $this->db->get_results($options, ARRAY_N);
         $list = [];
         foreach ($result as $val) {
             $list[$val[0]] = $val[1];
         }
 
         return $list;
-    }
-
-    private function enqueueResources() {
-        //wp_enqueue_style('qb_wp_lists', QBWPLISTS_URL . 'public/qb_wp_lists.css');
     }
 }

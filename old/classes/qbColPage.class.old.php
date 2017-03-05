@@ -4,7 +4,8 @@
 
 class qbColPage
 {
-    public function __construct($collection) {
+    public function __construct($collection)
+    {
         global $wpdb;
         $this->db = $wpdb;
         $this->table = QBCOL_TABLE . $collection['id'];
@@ -19,7 +20,8 @@ class qbColPage
         $this->item = null;
     }
 
-    public function getPage() {
+    public function getPage()
+    {
         $action = filter_input(INPUT_GET, 'action');
         $id = filter_input(INPUT_GET, 'id');
 
@@ -45,7 +47,8 @@ class qbColPage
         echo $content;
     }
 
-    private function showTitle($action) {
+    private function showTitle($action)
+    {
         echo '<h3 class="zkwp-tools-title">', $this->title;
         switch ($action) {
             case 'list':
@@ -61,7 +64,8 @@ class qbColPage
         echo '</h3>';
     }
 
-    private function editItem($id) {
+    private function editItem($id)
+    {
         $item = null;
         if (is_numeric($id)) {
             $item = $this->dbGetItem($id);
@@ -88,7 +92,8 @@ class qbColPage
 
     /* Database functions */
 
-    private function dbSaveItem($values) {
+    private function dbSaveItem($values)
+    {
         if (isset($values['id']) && is_numeric($values['id'])) {
             return $this->dbUpdateItem($values);
         } else {
@@ -96,7 +101,8 @@ class qbColPage
         }
     }
 
-    private function dbAddItem($values) {
+    private function dbAddItem($values)
+    {
         $nonempty = [];
         foreach ($values as $key => $val) {
             if (mb_strlen($val) > 0) {
@@ -110,7 +116,8 @@ class qbColPage
         }
     }
 
-    private function dbUpdateItem($values) {
+    private function dbUpdateItem($values)
+    {
         /* TODO
          * compare $values with definition of table from collection,
          * set NULL for cols that are not present i $values.
@@ -122,7 +129,8 @@ class qbColPage
         }
     }
 
-    private function dbGetItem($id) {
+    private function dbGetItem($id)
+    {
         $item = $this->db->get_row('SELECT * FROM ' . $this->table . ' WHERE id = ' . $id);
         if (is_null($item)) {
             $this->addMessage('Nie znaleziono rekordu o id = ' . $id . '.');
@@ -133,7 +141,8 @@ class qbColPage
         }
     }
 
-    private function dbDeleteItem($id) {
+    private function dbDeleteItem($id)
+    {
         if (false === $this->db->delete($this->table, ['id' => $id])) {
             $this->addMessage('Nie można usunąć wybranego rekordu. Upewnij się, że nigdzie nie jest wykorzystywany.');
         } else {

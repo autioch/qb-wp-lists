@@ -1,29 +1,29 @@
 <?php
 
 return [
-    'champion' => [
-        'title' => 'Czempiony',
-        'id' => 'champion',
+    'alliance' => [
+        'title' => 'Aluchy',
+        'id' => 'alliance',
         'fields' => [
             'name' => ['title' => 'Nazwa *', 'required' => true],
             'nickname' => ['title' => 'Przydomek *', 'required' => true],
-            'reproductor_id' => ['title' => 'Rasa *', 'db' => 'int(5)', 'required' => true, 'form' => 'select'],
+            'horde_id' => ['title' => 'Rasa *', 'db' => 'int(5)', 'required' => true, 'form' => 'select'],
             'title' => ['title' => 'Tytuły', 'db' => 'text', 'form' => 'textarea'],
-            'owner' => ['title' => 'Właściciel'],
             'image' => ['title' => 'Zdjęcie'],
         ],
         'listColumns' => [
             'name' => 'Nazwa',
             'nickname' => 'Przydomek',
-            'breed_name' => 'Rasa',
-            'owner' => 'Właściciel',
             'image' => 'Zdjęcie',
         ],
-        'list' => 'SELECT * FROM ' . QBWPLISTS_TABLE . 'champion',
+        'list' => 'SELECT * FROM ' . QBWPLISTS_TABLE . 'alliance',
+        'shortcode' => [
+          'list' => 'SELECT * FROM ' . QBWPLISTS_TABLE . 'alliance',
+        ],
     ],
-    'reproductor' => [
-        'title' => 'Reproduktory',
-        'id' => 'reproductor',
+    'horde' => [
+        'title' => 'Hordziaki',
+        'id' => 'horde',
         'fields' => [
             'name' => ['title' => 'Nazwa *', 'required' => true],
             'nickname' => ['title' => 'Przydomek *', 'required' => true],
@@ -48,9 +48,11 @@ return [
         'listColumns' => [
             'name' => 'Nazwa',
             'nickname' => 'Przydomek',
-            'breed_name' => 'Rasa',
             'image' => 'Zdjęcie',
         ],
-        'list' => 'SELECT * FROM ' . QBWPLISTS_TABLE . 'reproductor',
+        'list' => 'SELECT * FROM ' . QBWPLISTS_TABLE . 'horde',
+        'shortcode' => [
+          'list' => 'SELECT * FROM ' . QBWPLISTS_TABLE . 'horde',
+        ],
     ],
 ];
