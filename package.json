@@ -1,0 +1,14 @@
+{
+  "name": "qb-wp-lists",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Wordpress plugin for lists of items",
+  "scripts": {
+    "lint": "php-cs-fixer fix .",
+    "watch": "node ./tools/watch"
+  },
+  "devDependencies": {
+    "cpx": "^1.5.0",
+    "qb-log": "^1.0.0"
+  }
+}
