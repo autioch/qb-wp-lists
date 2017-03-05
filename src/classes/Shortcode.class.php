@@ -14,23 +14,30 @@ class qbWpListsShortcode
         $this->registerShortcodes();
     }
 
-    public function shortcodeCallback($attributes)
+    public function shortcodeCallback($atts)
     {
         global $wpdb;
+        $attributes = shortcode_atts(['itemid' => false, 'id' => false], $atts);
         $id = $attributes['id'];
+        $itemId = $attributes['itemid'];
         $this->enqueueResources();
         $shortcodeQueries = $this->collections[$id]['shortcode'];
-        $datas = [];
 
-        foreach ($shortcodeQueries as $key => $sql) {
-            $datas[$key] = $wpdb->get_results($sql);
+        if ($itemId) {
+            $datas = $wpdb->get_results($shortcodeQueries['item'] . $itemId);
+        } else {
+            $datas = $wpdb->get_results($shortcodeQueries['list']);
         }
         if (!isset($this->view)) {
             $this->view = qbWpListsLoadClass('ShortcodeView', true);
         }
 
         ob_start();
-        $this->view->render($id, $datas);
+        if ($itemId) {
+            $this->view->render($id . '.item', $datas);
+        } else {
+            $this->view->render($id, $datas);
+        }
 
         return ob_get_clean();
     }

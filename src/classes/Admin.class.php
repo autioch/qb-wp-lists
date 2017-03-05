@@ -36,15 +36,9 @@ class qbWpListsAdmin
             ?>
             <script type="text/javascript">
             <?php
-            foreach ($this->collections as $id => $definition) {
-                $shortcode = '[' . QBWPLISTS_ID . 'shortcode id=\"' . $id . '\"]';
-                $description = 'Wstawi listę `' . $definition['title'] . '`';
-                echo 'QTags.addButton("' . QBWPLISTS_ID . $id . '", "' . $definition['title'] . '", "' . $shortcode . '", "", "", "' . $description . '", 1);';
-            }
-
-            $shortcode = '[' . QBWPLISTS_ID . 'contact id=\"\"]';
-            $description = 'Wstawi formularz kontaktowy o wybranym id';
-            echo 'QTags.addButton("' . QBWPLISTS_ID . 'contact", "Formularz kontaktowy", "' . $shortcode . '", "", "", "' . $description . '", 1);'; ?>
+            echo 'QTags.addButton("' . QBWPLISTS_ID . '", "Wstaw listę", "[' . QBWPLISTS_ID . 'shortcode id=\"\"]", "", "", "Wstaw listę o wybranym id", 1);';
+            echo 'QTags.addButton("' . QBWPLISTS_ID . 'item", "Wstaw element", "[' . QBWPLISTS_ID . 'shortcode id=\"\" itemId=\"\"]", "", "", "Wstaw element z wybranej listy", 1);';
+            echo 'QTags.addButton("' . QBWPLISTS_ID . 'contact", "Formularz kontaktowy", "[' . QBWPLISTS_ID . 'contact id=\"\"]", "", "", "Wstaw formularz kontaktowy o wybranym id", 1);'; ?>
                 </script>
             <?php
 
@@ -79,7 +73,7 @@ class qbWpListsAdmin
     public function enqueueResources()
     {
         /* enqueue jquery and jquery.datatables to enhance the table we will produce */
-      wp_enqueue_script('jquery');
+        wp_enqueue_script('jquery');
         wp_enqueue_script('jquery-ui-datepicker');
         wp_enqueue_script('jquery.datatables', QBWPLISTS_URL . 'public/jquery.dataTables.min.js', ['jquery']);
         wp_enqueue_script(QBWPLISTS_ID, QBWPLISTS_URL . 'public/' . QBWPLISTS_ID . '.min.js', ['jquery', 'jquery-ui-datepicker']);

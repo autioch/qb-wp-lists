@@ -1,58 +1,108 @@
 <?php
 
 return [
-    'alliance' => [
-        'title' => 'Aluchy',
-        'id' => 'alliance',
+    'encyclopedia' => [
+        'title' => 'Encyklopedia traw',
+        'id' => 'encyclopedia',
         'fields' => [
-            'name' => ['title' => 'Nazwa *', 'required' => true],
-            'nickname' => ['title' => 'Przydomek *', 'required' => true],
-            'horde_id' => ['title' => 'Rasa *', 'db' => 'int(5)', 'required' => true, 'form' => 'select'],
-            'title' => ['title' => 'Tytuły', 'db' => 'text', 'form' => 'textarea'],
-            'image' => ['title' => 'Zdjęcie'],
+            'species' => ['title' => 'Gatunek', 'required' => true],
+            'label' => ['title' => 'Nazwa', 'required' => true],
+            'label_latin' => ['title' => 'Nazwa łacińska', 'required' => true],
+            'description_short' => ['title' => 'Krótka charakterystyka', 'required' => true, 'db' => 'text', 'form' => 'textarea'],
+            'description' => ['title' => 'Charakterystyka', 'required' => true, 'db' => 'text', 'form' => 'textarea'],
+            'usage' => ['title' => 'Wykorzystanie', 'required' => true, 'db' => 'text', 'form' => 'textarea'],
+            'source' => ['title' => 'Źródło', 'required' => true, 'db' => 'text', 'form' => 'textarea'],
         ],
         'listColumns' => [
-            'name' => 'Nazwa',
-            'nickname' => 'Przydomek',
-            'image' => 'Zdjęcie',
+            'species' => 'Gatunek',
+            'label' => 'Nazwa',
+            'label_latin' => 'Nazwa łacińska',
+            'description_short' => 'Krótki opis',
         ],
-        'list' => 'SELECT * FROM ' . QBWPLISTS_TABLE . 'alliance',
+        'list' => 'SELECT * FROM ' . QBWPLISTS_TABLE . 'encyclopedia',
         'shortcode' => [
-          'list' => 'SELECT * FROM ' . QBWPLISTS_TABLE . 'alliance',
+          'list' => 'SELECT * FROM ' . QBWPLISTS_TABLE . 'encyclopedia',
+          'item' => 'SELECT * FROM ' . QBWPLISTS_TABLE . 'encyclopedia WHERE id=',
         ],
     ],
-    'horde' => [
-        'title' => 'Hordziaki',
-        'id' => 'horde',
+    'support' => [
+        'title' => 'Pomoc',
+        'id' => 'support',
         'fields' => [
-            'name' => ['title' => 'Nazwa *', 'required' => true],
-            'nickname' => ['title' => 'Przydomek *', 'required' => true],
-            'birth' => ['title' => 'Data urodzenia *', 'required' => true, 'form' => 'date'],
-            'mother' => ['title' => 'Matka *', 'required' => true],
-            'father' => ['title' => 'Ojciec *', 'required' => true],
-            'registration' => ['title' => 'Nr rejestracji'],
-            'lineage' => ['title' => 'Nr rodowodu'],
-            'coat' => ['title' => 'Umaszczenie'],
-            'image' => ['title' => 'Zdjęcie'],
-            'test' => ['title' => 'Badania', 'db' => 'text', 'form' => 'textarea'],
-            'training' => ['title' => 'Wyszkolenie', 'db' => 'text', 'form' => 'textarea'],
-            'title' => ['title' => 'Tytuły', 'db' => 'text', 'form' => 'textarea'],
-            'person' => ['title' => 'Właściciel'],
-            'address' => ['title' => 'Adres'],
-            'city' => ['title' => 'Miasto'],
-            'postal_code' => ['title' => 'Kod pocztowy'],
-            'phone' => ['title' => 'Telefon'],
-            'email' => ['title' => 'Email', 'form' => 'email'],
-            'website' => ['title' => 'Strona'],
+            'question' => ['title' => 'Pytanie', 'required' => true, 'db' => 'text', 'form' => 'textarea'],
+            'answer' => ['title' => 'Odpowiedź', 'required' => true, 'db' => 'text', 'form' => 'textarea'],
+            'link' => ['title' => 'Strona', 'required' => true, 'db' => 'text', 'form' => 'textarea'],
         ],
         'listColumns' => [
-            'name' => 'Nazwa',
-            'nickname' => 'Przydomek',
-            'image' => 'Zdjęcie',
+            'question' => 'Pytanie',
+            'link' => 'Strona',
         ],
-        'list' => 'SELECT * FROM ' . QBWPLISTS_TABLE . 'horde',
+        'list' => 'SELECT * FROM ' . QBWPLISTS_TABLE . 'support',
         'shortcode' => [
-          'list' => 'SELECT * FROM ' . QBWPLISTS_TABLE . 'horde',
+          'list' => 'SELECT * FROM ' . QBWPLISTS_TABLE . 'support',
+          'item' => 'SELECT * FROM ' . QBWPLISTS_TABLE . 'support WHERE id=',
+        ],
+    ],
+    'product' => [
+        'title' => 'Produkty',
+        'id' => 'product',
+        'fields' => [
+            'label' => ['title' => 'Nazwa', 'required' => true],
+            'description_short' => ['title' => 'Krótki opis', 'required' => true, 'db' => 'text', 'form' => 'textarea'],
+            'description' => ['title' => 'Opis', 'required' => true, 'db' => 'text', 'form' => 'textarea'],
+            'composition' => ['title' => 'Skład', 'required' => true, 'db' => 'text', 'form' => 'textarea'],
+        ],
+        'listColumns' => [
+            'label' => 'Nazwa',
+            'description_short' => 'Krótki opis',
+        ],
+        'list' => 'SELECT * FROM ' . QBWPLISTS_TABLE . 'product',
+        'shortcode' => [
+          'list' => 'SELECT * FROM ' . QBWPLISTS_TABLE . 'product',
+          'item' => 'SELECT * FROM ' . QBWPLISTS_TABLE . 'product WHERE id=',
+        ],
+    ],
+    'package' => [
+        'title' => 'Opakowania',
+        'id' => 'package',
+        'fields' => [
+            'label' => ['title' => 'Nazwa', 'required' => true],
+            'weight' => ['title' => 'Waga w gramach', 'required' => true],
+            'description' => ['title' => 'Opis', 'required' => true, 'db' => 'text', 'form' => 'textarea'],
+        ],
+        'listColumns' => [
+            'label' => 'Nazwa',
+            'weight' => 'Waga w gramach',
+            'description' => 'Opis',
+        ],
+        'list' => 'SELECT * FROM ' . QBWPLISTS_TABLE . 'package',
+        'shortcode' => [
+          'list' => 'SELECT * FROM ' . QBWPLISTS_TABLE . 'package',
+          'item' => 'SELECT * FROM ' . QBWPLISTS_TABLE . 'package WHERE id=',
+        ],
+    ],
+    'box' => [
+        'title' => 'Produkty',
+        'id' => 'box',
+        'fields' => [
+            'product_id' => ['title' => 'Produkt', 'db' => 'int(5)', 'form' => 'select', 'required' => true],
+            'package_id' => ['title' => 'Opakowanie', 'db' => 'int(5)', 'form' => 'select', 'required' => true],
+            'price' => ['title' => 'Cena w zł'],
+            'description' => ['title' => 'Opis', 'db' => 'text', 'form' => 'textarea'],
+        ],
+        'listColumns' => [
+            'product_label' => 'Produkt',
+            'package_label' => 'Opakowanie',
+            'price' => 'Cena w zł',
+            'description' => 'Opis',
+        ],
+        'list' => 'SELECT box.*, pro.label AS product_label, pack.label AS package_label ' .
+                  'FROM ' . QBWPLISTS_TABLE . 'box box ' .
+                  'LEFT JOIN ' . QBWPLISTS_TABLE . 'product pro ON box.product_id = pro.id ' .
+                  'LEFT JOIN ' . QBWPLISTS_TABLE . 'package pack ON box.package_id = pack.id',
+        'shortcode' => [
+          'list' => 'SELECT * FROM ' . QBWPLISTS_TABLE . 'box',
+          'item' => 'SELECT * FROM ' . QBWPLISTS_TABLE . 'box WHERE id=',
         ],
     ],
 ];

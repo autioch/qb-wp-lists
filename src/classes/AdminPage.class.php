@@ -24,6 +24,7 @@ class qbWpListsAdminPage
         $this->title = $collection['title'];
         $this->table = QBWPLISTS_TABLE . $collection['id'];
         $this->page = QBWPLISTS_ID . $collection['id'];
+        $this->shortcodeId = $collection['id'];
         $this->fields = $collection['fields'];
         $this->listColumns = $collection['listColumns'];
         $this->list = $collection['list'];
@@ -219,7 +220,7 @@ class qbWpListsAdminPage
 
     public function getSelectValues($key)
     {
-        $result = $this->db->get_results('SELECT id, name FROM ' . QBWPLISTS_TABLE . mb_substr($key, 0, -3) . ' ORDER BY name', ARRAY_N);
+        $result = $this->db->get_results('SELECT id, label FROM ' . QBWPLISTS_TABLE . mb_substr($key, 0, -3) . ' ORDER BY label', ARRAY_N);
         $list = [];
         foreach ($result as $val) {
             $list[$val[0]] = $val[1];

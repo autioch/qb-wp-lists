@@ -3,7 +3,7 @@ const path = require('path');
 const qbLog = require('qb-log')('simple');
 
 const source = path.join(__dirname, '..', 'src', '**', '*');
-const target = path.join(__dirname, '..', 'publish');
+const target = path.join(__dirname, '..', 'publish', 'qb-wp-lists');
 
 qbLog.info('Build to: ');
 qbLog.empty(target);

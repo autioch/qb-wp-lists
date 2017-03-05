@@ -22,7 +22,7 @@ class qbWpListsInstall
         foreach ($this->collections as $id => $collection) {
             $columns = [];
             foreach ($collection['fields'] as $name => $field) {
-                $col = $name . ' ' . (array_key_exists('db', $field) ? $field['db'] : 'varchar(128)');
+                $col = '`' . $name . '`' . ' ' . (array_key_exists('db', $field) ? $field['db'] : 'varchar(128)');
 
                 if (array_key_exists('required', $field) && $field['required']) {
                     $col .= ' NOT NULL';

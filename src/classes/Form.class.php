@@ -382,7 +382,7 @@ class qbWpListsForm
             $this->set($key, stripslashes($this->get($key)));
         }
         foreach ($this->hidden as $key => $value) {
-            $this->set($key, stripslashes($this->get($key)));
+            $this->hidden[$key]['value'] = stripslashes($this->get($key));
         }
     }
 
