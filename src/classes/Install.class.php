@@ -7,11 +7,11 @@ class qbWpListsInstall
      */
     private $db;
     private $collections;
-    private $alterKey = QBWPLISTS_ID . 'alter_';
 
     public function __construct($collections)
     {
         global $wpdb;
+        $this->alterKey = QBWPLISTS_ID . 'alter_';
         $this->db = $wpdb;
         $this->collections = $collections;
     }
