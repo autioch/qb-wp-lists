@@ -29,7 +29,7 @@ class qbWpListsShortcode
             $datas = $wpdb->get_results($shortcodeQueries['list']);
         }
         if (!isset($this->view)) {
-            $this->view = qbWpListsLoadClass('ShortcodeView', true);
+            $this->view = qbWpListsLoadClass(['front'], 'ShortcodeView', true);
         }
 
         ob_start();

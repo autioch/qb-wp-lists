@@ -47,7 +47,7 @@ class qbWpListsAdmin
 
     public function activation()
     {
-        $this->install = qbWpListsLoadClass('Install', true, $this->collections);
+        $this->install = qbWpListsLoadClass(['admin'], 'Install', true, $this->collections);
         $this->install->install();
     }
 
@@ -64,7 +64,7 @@ class qbWpListsAdmin
     {
         $page = str_replace(QBWPLISTS_ID, '', filter_input(INPUT_GET, 'page'));
         if (empty($this->$page)) {
-            $this->$page = qbWpListsLoadClass('AdminPage', true, $this->collections[$page]);
+            $this->$page = qbWpListsLoadClass(['admin'], 'ListPage', true, $this->collections[$page]);
         }
         $this->$page->getPage();
         $this->enqueueResources();

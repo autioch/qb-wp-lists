@@ -2,7 +2,7 @@
 
 /* TODO sort out title, messages, names used overall and in views */
 
-class qbWpListsAdminPage
+class qbWpListsListPage
 {
     /**
      * @var wpdb
@@ -126,7 +126,7 @@ class qbWpListsAdminPage
     {
         $this->title = $this->titleBackup;
         $itemList = $this->db->get_results($this->list);
-        include qbWpListsFindTemplate('adminPage');
+        include QBWPLISTS_DIR . 'admin' . DIRECTORY_SEPARATOR . 'listPage.template.php';
     }
 
     public function deleteItem()

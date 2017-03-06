@@ -29,37 +29,21 @@ define('QBWPLISTS_ID', 'qb_wp_lists_');
 global $wpdb;
 define('QBWPLISTS_TABLE', $wpdb->prefix . QBWPLISTS_ID);
 
-/* Wordpress doesn't like autoloaders, create our custom one. */
-function qbWpListsLoadClass($className, $create = false, $arg = null)
-{
-    $fullClassName = 'qbWpLists' . $className;
-
-    if (!class_exists($fullClassName)) {
-        require_once QBWPLISTS_DIR . 'classes/' . $className . '.class.php';
-    }
-
-    return $create ? new $fullClassName($arg) : true;
-}
-
-/* Simplify getting templates */
-function qbWpListsFindTemplate($template)
-{
-    return QBWPLISTS_DIR . 'templates/' . $template . '.template.php';
-}
-
 /* Load definitions of the lists. */
-$qbWpListsDefinitions = include_once QBWPLISTS_DIR . 'resources/definitions.php';
-$qbWpListsForms = include_once QBWPLISTS_DIR . 'resources/forms.php';
+$qbWpListsDefinitions = include_once QBWPLISTS_DIR . 'custom' . DIRECTORY_SEPARATOR . 'definitions.php';
+$qbWpListsForms = include_once QBWPLISTS_DIR . 'custom' . DIRECTORY_SEPARATOR . 'forms.php';
+
+require_once QBWPLISTS_DIR . 'utils.php';
 
 /* Load support class for forms */
-qbWpListsLoadClass('Form');
+qbWpListsLoadClass(['admin'], 'Form');
 
 /* Create class based on location in wordpress. */
 if (is_admin()) {
     /* For admin, load administration class. */
-    $qbWpListsAdmin = qbWpListsLoadClass('Admin', true, $qbWpListsDefinitions);
+    $qbWpListsAdmin = qbWpListsLoadClass(['admin'], 'Admin', true, $qbWpListsDefinitions);
 } else {
     /* For frontend, public part, load shortcodes and contact forms. */
-    $qbWpListsShortcode = qbWpListsLoadClass('Shortcode', true, $qbWpListsDefinitions);
-    $qbWpListsContactForm = qbWpListsLoadClass('Contact', true, $qbWpListsForms);
+    $qbWpListsShortcode = qbWpListsLoadClass(['front'], 'Shortcode', true, $qbWpListsDefinitions);
+    $qbWpListsContactForm = qbWpListsLoadClass(['front'], 'Contact', true, $qbWpListsForms);
 }
