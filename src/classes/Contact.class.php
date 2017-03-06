@@ -21,13 +21,13 @@ class qbWpListsContact
      * @var array
      */
     private $collections;
-    private $formId = QBWPLISTS_ID . 'contact';
     private $nonceError = false;
 
     public function __construct($forms)
     {
         global $wpdb;
         $this->db = $wpdb;
+        $this->formId = QBWPLISTS_ID . 'contact';
         $this->collections = $forms;
 
         add_action('plugins_loaded', [$this, 'sniffForm']);
