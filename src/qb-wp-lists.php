@@ -33,6 +33,8 @@ define('QBWPLISTS_TABLE', $wpdb->prefix . QBWPLISTS_ID);
 $qbWpListsDefinitions = include_once QBWPLISTS_DIR . 'resources/definitions.php';
 $qbWpListsForms = include_once QBWPLISTS_DIR . 'resources/forms.php';
 
+require_once QBWPLISTS_DIR . 'utils.php';
+
 /* Load support class for forms */
 qbWpListsLoadClass('Form');
 
