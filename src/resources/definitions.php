@@ -10,13 +10,14 @@ return [
             'label_latin' => ['title' => 'Nazwa łacińska', 'required' => true],
             'description_short' => ['title' => 'Krótka charakterystyka', 'required' => true, 'db' => 'text', 'form' => 'textarea'],
             'description' => ['title' => 'Charakterystyka', 'required' => true, 'db' => 'text', 'form' => 'textarea'],
+            'link' => ['title' => 'Strona', 'required' => true, 'db' => 'text', 'form' => 'textarea'],
             'usage' => ['title' => 'Wykorzystanie', 'required' => true, 'db' => 'text', 'form' => 'textarea'],
             'source' => ['title' => 'Źródło', 'required' => true, 'db' => 'text', 'form' => 'textarea'],
         ],
         'listColumns' => [
             'species' => 'Gatunek',
             'label' => 'Nazwa',
-            'label_latin' => 'Nazwa łacińska',
+            'link' => 'Strona',
             'description_short' => 'Krótki opis',
         ],
         'list' => 'SELECT * FROM ' . QBWPLISTS_TABLE . 'encyclopedia',
@@ -50,6 +51,8 @@ return [
             'label' => ['title' => 'Nazwa', 'required' => true],
             'description_short' => ['title' => 'Krótki opis', 'required' => true, 'db' => 'text', 'form' => 'textarea'],
             'description' => ['title' => 'Opis', 'required' => true, 'db' => 'text', 'form' => 'textarea'],
+            'image' => ['title' => 'Zdjęcie opakowania'],
+            'link' => ['title' => 'Strona', 'required' => true, 'db' => 'text', 'form' => 'textarea'],
             'composition' => ['title' => 'Skład', 'required' => true, 'db' => 'text', 'form' => 'textarea'],
         ],
         'listColumns' => [
@@ -82,7 +85,7 @@ return [
         ],
     ],
     'box' => [
-        'title' => 'Produkty',
+        'title' => 'Pudełka',
         'id' => 'box',
         'fields' => [
             'product_id' => ['title' => 'Produkt', 'db' => 'int(5)', 'form' => 'select', 'required' => true],

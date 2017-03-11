@@ -7,6 +7,7 @@
 <table class="qbca-list js-datatable">
     <thead>
         <tr>
+          <th class="qbc-col-100">Id</th>
             <?php foreach ($this->listColumns as $key => $value): ?>
                 <th><?php echo $value ?></th>
             <?php endforeach; ?>
@@ -18,6 +19,7 @@
     <tbody>
         <?php foreach ($itemList as $item) : ?>
             <tr>
+              <td class="qbc-col-100"><?php echo $item->id ?></td>
                 <?php foreach ($this->listColumns as $key => $value): ?>
                     <td><?php echo $item->$key ?></td>
                 <?php endforeach; ?>
