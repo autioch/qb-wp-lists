@@ -2,24 +2,9 @@
 
 class qbWpListsContact
 {
-    /**
-     * @var qbWpListsForm
-     */
     private $form = null;
-
-    /**
-     * @var array
-     */
     private $collection;
-
-    /**
-     * @var wpdb
-     */
     private $db;
-
-    /**
-     * @var array
-     */
     private $collections;
     private $nonceError = false;
 
@@ -48,7 +33,7 @@ class qbWpListsContact
     public function shortcodeCallback($atts)
     {
         if (filter_input(INPUT_GET, 'zcfc')) {
-            return '<br>Dziękujemy, zgłoszenie zostało wysłane do administracji.';
+            return '<br>' . $this->collections[$atts['id']]['confirmation'];
         }
         if ($this->nonceError) {
             return '<br/>Przepraszamy, wygląda na to, że ten formularz był już wysłany.'
@@ -65,33 +50,60 @@ class qbWpListsContact
         return ob_get_clean();
     }
 
-    /* TODO Make this part more generic */
+    private function debugForm()
+    {
+        echo '<h1>FORM DEBUG</h1>';
+        foreach ($this->form->fields as $field) {
+            if ($field['id'] != 'antybot') {
+                echo '<pre>#';
+                echo print_r($field);
+                echo '#</pre>';
+            }
+        }
+    }
+
+    private function serializeForm()
+    {
+        $rows = [];
+        foreach ($this->form->fields as $field) {
+            if ($field['id'] != 'antybot') {
+                array_push($rows, [
+                  'label' => $field['label'],
+                  'value' => $field['type'] === 'select' ? $field['options'][$field['value']] : $field['value'],
+                ]);
+            }
+        }
+
+        return $rows;
+    }
+
     private function sendEmail()
     {
         if (!$this->validateNonce()) {
             return;
         }
-        $title = 'Kemiplast - ' . $this->collection['title'] . ' (zgłoszenie)';
+        $title = $this->collection['email']['title'];
 
-        $content = 'Zostało wysłane zgłoszenie.<br/><br/><table>';
-        foreach ($this->form->fields as $field) {
-            if ($field['id'] != 'antybot') {
-                $content .= '<tr><td>' . $field['label'] . '</td><td>' . $field['value'] . '</td>';
-            }
+        $content = $this->collection['email']['header'] . '<br/><br/><table>';
+        $rows = $this->serializeForm();
+
+        foreach ($rows as $row) {
+            $content .= '<tr><td>' . $row['label'] . '</td><td>' . $row['value'] . '</td>';
         }
-        $content .= '<tr><td>Nonce (dev)</td><td>' . $this->form->get('nonce') . '</td>';
-        $content .= '</table><br/><br/>Data wysłania zgłoszenia: ' . date('Y.m.d, h:i:s');
+
+        $content .= '</table><br/><br/>' . $this->collection['email']['footer'];
 
         $headers = [];
-        $headers[] = 'From: Kemiplast <no-reply@kemiplast.pl>';
+        $headers[] = $this->collection['email']['from'];
         $headers[] = 'Content-Type: text/html; charset=UTF-8';
 
-        /*
-         * Wysyłamy maila na każdy adres wpisany w tablicy
-         * "sendto" w resources/forms.php
-         */
-        foreach ($this->collection['sendto'] as $mail) {
+        foreach ($this->collection['email']['sendto'] as $mail) {
             wp_mail($mail, $title, $content, $headers);
+        }
+        foreach ($this->form->fields as $field) {
+            if ($field['type'] == 'email') {
+                wp_mail($field['value'], $title, $content, $headers);
+            }
         }
 
         header('Location: ' . get_the_permalink() . '?zcfc=' . md5('qbcontacform' . rand(1, 300)));
@@ -136,23 +148,30 @@ class qbWpListsContact
             $this->form->add_radio('record_type', 'Typ zgłoszenia', ['nowy' => ' Nowy wpis', 'aktualizacja' => ' Aktualizacja'], '', true);
         }
         foreach ($this->collection['fields'] as $key => $val) {
-            //$this->form->add_text($key, $val['title'], '', array_key_exists('required', $val));
             $type = array_key_exists('form', $val) ? $val['form'] : 'text';
+            $label = $val['title'];
+            $defaultValue = $this->getFieldValue($val);
+
+            $isRequired = array_key_exists('required', $val) && $val['required'] == true;
+            $errorLabel = array_key_exists('error', $val) ? $val['error'] : '';
+
+            // call_user_func_array(array($instance, "MethodName"), $myArgs);
+
             switch ($type) {
                 case 'textarea':
-                    $this->form->add_textarea($key, $val['title'], '', '', array_key_exists('required', $val));
+                    $this->form->add_textarea($key, $label, $errorLabel, $isRequired, $defaultValue);
                     break;
                 case 'email':
-                    $this->form->add_email($key, $val['title'], '', '', array_key_exists('required', $val));
+                    $this->form->add_email($key, $label, '', $errorLabel, $isRequired, $defaultValue);
                     break;
                 case 'number':
-                    $this->form->add_number($key, $val['title'], '', array_key_exists('required', $val));
+                    $this->form->add_number($key, $label, $errorLabel, $isRequired, $defaultValue);
                     break;
                 case 'select':
-                    $this->form->add_select($key, $val['title'], $this->getFieldOptions($key), '', array_key_exists('required', $val));
+                    $this->form->add_select($key, $label, $this->getFieldOptions($key), $errorLabel, $isRequired, $defaultValue);
                     break;
                 default:
-                    $this->form->add_text($key, $val['title'], '', array_key_exists('required', $val));
+                    $this->form->add_text($key, $label, $errorLabel, $isRequired, $defaultValue);
                     break;
             }
         }
@@ -163,6 +182,21 @@ class qbWpListsContact
         return $this->form;
     }
 
+    private function getFieldValue($fieldDefinition)
+    {
+        if (array_key_exists('get_param', $fieldDefinition)) {
+            $getParam = filter_input(INPUT_GET, $fieldDefinition['get_param']);
+            if ($getParam) {
+                return $getParam;
+            }
+        }
+        if (array_key_exists('value', $fieldDefinition)) {
+            return $fieldDefinition['value'];
+        }
+
+        return '';
+    }
+
     private function getFieldOptions($key)
     {
         if (!array_key_exists('fieldOptions', $this->collection)) {
@@ -171,11 +205,16 @@ class qbWpListsContact
         if (!array_key_exists($key, $this->collection['fieldOptions'])) {
             return [];
         }
-        $options = $this->collection['fieldOptions'];
+        $options = $this->collection['fieldOptions'][$key];
         if (is_array($options)) {
             return $options;
         }
-        $result = $this->db->get_results($options, ARRAY_N);
+        $query = $options;
+
+        if (mb_substr($query, -1) == '=') {
+            $query = $query . filter_input(INPUT_GET, 'product_id');
+        }
+        $result = $this->db->get_results($query, ARRAY_N);
         $list = [];
         foreach ($result as $val) {
             $list[$val[0]] = $val[1];

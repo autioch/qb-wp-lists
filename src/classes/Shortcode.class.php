@@ -22,9 +22,13 @@ class qbWpListsShortcode
         $itemId = $attributes['itemid'];
         $this->enqueueResources();
         $shortcodeQueries = $this->collections[$id]['shortcode'];
+        $datasExtras = [];
 
         if ($itemId) {
             $datas = $wpdb->get_results($shortcodeQueries['item'] . $itemId);
+            if (array_key_exists('item_extra', $shortcodeQueries)) {
+                $datasExtras = $wpdb->get_results($shortcodeQueries['item_extra'] . $itemId);
+            }
         } else {
             $datas = $wpdb->get_results($shortcodeQueries['list']);
         }
@@ -34,7 +38,7 @@ class qbWpListsShortcode
 
         ob_start();
         if ($itemId) {
-            $this->view->render($id . '.item', $datas);
+            $this->view->render($id . '.item', $datas, $datasExtras);
         } else {
             $this->view->render($id, $datas);
         }

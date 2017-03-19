@@ -63,6 +63,10 @@ return [
         'shortcode' => [
           'list' => 'SELECT * FROM ' . QBWPLISTS_TABLE . 'product',
           'item' => 'SELECT * FROM ' . QBWPLISTS_TABLE . 'product WHERE id=',
+          'item_extra' => 'SELECT box.*, pro.label AS product_label, pack.weight AS package_weight, pack.label AS package_label ' .
+                    'FROM ' . QBWPLISTS_TABLE . 'box box ' .
+                    'LEFT JOIN ' . QBWPLISTS_TABLE . 'product pro ON box.product_id = pro.id ' .
+                    'LEFT JOIN ' . QBWPLISTS_TABLE . 'package pack ON box.package_id = pack.id WHERE pro.id=',
         ],
     ],
     'package' => [

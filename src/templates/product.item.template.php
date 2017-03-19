@@ -10,7 +10,23 @@
   <?php endforeach; ?>
 </ul>
 <h4>Dostępne opakowania</h4>
-<p>Przepraszamy, szczegóły opakowań w przygotowaniu.</p>
+<table class="product-item__boxes">
+  <tr>
+    <th>Rozmiar</th>
+    <th>Waga (gramy)</th>
+    <th>Cena brutto (zł)</th>
+  </tr>
+<?php foreach ($this->datasExtras as $box):?>
+  <tr>
+    <td><?php echo $box->package_label ?></td>
+    <td><?php echo $box->package_weight ?></td>
+    <td><?php echo $box->price ?></td>
+  </tr>
+<?php endforeach; ?>
+</table>
+<div style="margin:2em 0">
+  <a href="<?php echo get_permalink(get_page_by_path('sklep-zamowienie')->ID); ?>?product_id=<?php echo $this->datas[0]->id ?>">Zamów <?php echo $this->datas[0]->label ?></a>
+</div>
 <div>
-  <a href="<?php echo get_permalink(get_page_by_path('sklep')->ID); ?>">Powrót do listy produktów.</a>
+  <a href="<?php echo get_permalink(get_page_by_path('sklep')->ID); ?>">Wróć do listy traw.</a>
 </div>

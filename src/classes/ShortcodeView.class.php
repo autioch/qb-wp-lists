@@ -2,10 +2,11 @@
 
 class qbWpListsShortcodeView
 {
-    public function render($view, $datas)
+    public function render($view, $datas, $datasExtras = [])
     {
         global $wpdb;
         $this->datas = $datas;
+        $this->datasExtras = $datasExtras;
         include qbWpListsFindTemplate($view);
     }
 

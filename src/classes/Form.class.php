@@ -766,9 +766,14 @@ class qbWpListsForm
     {
         $f = $this->getField($field);
         $result = '<select' . $this->attrName($f) . $this->attrClass($f) . $this->attrId($f) . '>';
-        $result .= '<option value="-1"> </option>';
         foreach ($f['options'] as $key => $val) {
-            $result .= "\n<option" . (strcmp($f['value'], $key) == 0 ? ' selected="selected"' : '') . ' value="' . $key . '">' . $val . '</option>';
+            $result .= "\n<option" .
+            (strcmp($f['value'], $key) == 0 ? ' selected="selected"' : '') .
+             ' value="' .
+              $key .
+              '">' .
+              $val .
+               '</option>';
         }
         $result .= '</select>';
 
