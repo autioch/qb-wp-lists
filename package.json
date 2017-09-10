@@ -11,5 +11,9 @@
   "devDependencies": {
     "cpx": "^1.5.0",
     "qb-log": "^1.0.0"
+  },
+  "dependencies": {
+    "eslint": "^4.6.1",
+    "eslint-config-qb": "^1.0.0"
   }
 }

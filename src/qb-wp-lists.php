@@ -35,15 +35,13 @@ $qbWpListsForms = include_once QBWPLISTS_DIR . 'resources/forms.php';
 
 require_once QBWPLISTS_DIR . 'utils.php';
 
-/* Load support class for forms */
-qbWpListsLoadClass('Form');
-
-/* Create class based on location in wordpress. */
+/* Create classes based on location in wordpress. */
 if (is_admin()) {
+    /* Load support class for forms */
+    qbWpListsLoadClass('Form');
     /* For admin, load administration class. */
     $qbWpListsAdmin = qbWpListsLoadClass('Admin', true, $qbWpListsDefinitions);
 } else {
     /* For frontend, public part, load shortcodes and contact forms. */
     $qbWpListsShortcode = qbWpListsLoadClass('Shortcode', true, $qbWpListsDefinitions);
-    $qbWpListsContactForm = qbWpListsLoadClass('Contact', true, $qbWpListsForms);
 }
