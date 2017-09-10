@@ -8,32 +8,36 @@
  * https://github.com/luis-almeida
  */
 
-;(function($) {
-
+(function($) {
   $.fn.unveil = function(threshold, callback) {
-
-    var $w = $(window),
+    let $w = $(window),
         th = threshold || 0,
         retina = window.devicePixelRatio > 1,
-        attrib = retina? "data-src-retina" : "data-src",
+        attrib = retina ? 'data-src-retina' : 'data-src',
         images = this,
         loaded;
 
-    this.one("unveil", function() {
-      var source = this.getAttribute(attrib);
-      source = source || this.getAttribute("data-src");
+    this.one('unveil', function() {
+      let source = this.getAttribute(attrib);
+
+      source = source || this.getAttribute('data-src');
       if (source) {
-        this.setAttribute("src", source);
-        if (typeof callback === "function") callback.call(this);
+        this.setAttribute('src', source);
+        if (typeof callback === 'function') {
+          callback.call(this);
+        }
       }
     });
 
     function unveil() {
-      var inview = images.filter(function() {
-        var $e = $(this);
-        if ($e.is(":hidden")) return;
+      const inview = images.filter(function() {
+        const $e = $(this);
 
-        var wt = $w.scrollTop(),
+        if ($e.is(':hidden')) {
+          return;
+        }
+
+        let wt = $w.scrollTop(),
             wb = wt + $w.height(),
             et = $e.offset().top,
             eb = et + $e.height();
@@ -41,16 +45,14 @@
         return eb >= wt - th && et <= wb + th;
       });
 
-      loaded = inview.trigger("unveil");
+      loaded = inview.trigger('unveil');
       images = images.not(loaded);
     }
 
-    $w.on("scroll.unveil resize.unveil lookup.unveil", unveil);
+    $w.on('scroll.unveil resize.unveil lookup.unveil', unveil);
 
     unveil();
 
     return this;
-
   };
-
 })(window.jQuery || window.Zepto);

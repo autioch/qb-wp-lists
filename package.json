@@ -1,19 +1,37 @@
 {
   "name": "qb-wp-lists",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Wordpress plugin for lists of items",
   "scripts": {
-    "lint": "php-cs-fixer fix .",
-    "watch": "node ./tools/watch",
-    "publish": "node ./tools/publish"
-  },
-  "devDependencies": {
-    "cpx": "^1.5.0",
-    "qb-log": "^1.0.0"
+    "backend:watch": "node ./tools/watch",
+    "backend:publish": "node ./tools/publish",
+    "frontend:watch": "webpack --config tools/webpack.config.js --hide-modules --watch",
+    "frontend:publish": "webpack --config tools/webpack.config.js --hide-modules -p",
+    "watch": "concurrently -k -p \"\" \"npm run backend:watch\" \"npm run frontend:watch\"",
+    "publish": "npm run backend:publish && npm run frontend:publish",
+    "lint:css": "sass-lint -c .sass-lint.yml -v -q & exit 0",
+    "lint:js": "eslint . --fix --ext .js & exit 0",
+    "lint:php": "php-cs-fixer fix ."
   },
   "dependencies": {
+    "autoprefixer": "^7.1.4",
+    "babel-core": "^6.26.0",
+    "babel-loader": "7.1.1",
+    "babel-preset-es2015": "^6.24.1",
+    "concurrently": "^3.4.0",
+    "cpx": "^1.5.0",
+    "css-loader": "^0.28.7",
     "eslint": "^4.6.1",
-    "eslint-config-qb": "^1.0.0"
+    "eslint-config-qb": "^1.0.0",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.11.2",
+    "node-sass": "^4.5.3",
+    "postcss-loader": "^1.2.1",
+    "qb-log": "^1.0.0",
+    "sass-lint": "^1.11.1",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.18.2",
+    "webpack": "^1.15.0"
   }
 }

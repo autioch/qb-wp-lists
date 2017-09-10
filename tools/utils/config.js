@@ -29,5 +29,5 @@ module.exports = {
   source: path.join(__dirname, '..', '..', 'src'),
   buildTime: new Date().getTime(),
   isProduction: process.argv.indexOf('-p') > -1,
-  extensions: ['php']
+  extensions: ['php', 'txt']
 };
