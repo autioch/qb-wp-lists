@@ -2,7 +2,6 @@
 
 class qbWpListsAdmin
 {
-    private $install = null;
     private $collections = null;
 
     public function __construct($collections)
@@ -37,9 +36,8 @@ class qbWpListsAdmin
             <script type="text/javascript">
             <?php
             echo 'QTags.addButton("' . QBWPLISTS_ID . '", "Wstaw listę", "[' . QBWPLISTS_ID . 'shortcode id=\"\"]", "", "", "Wstaw listę o wybranym id", 1);';
-            echo 'QTags.addButton("' . QBWPLISTS_ID . 'item", "Wstaw element", "[' . QBWPLISTS_ID . 'shortcode id=\"\" itemId=\"\"]", "", "", "Wstaw element z wybranej listy", 1);';
-            echo 'QTags.addButton("' . QBWPLISTS_ID . 'contact", "Formularz kontaktowy", "[' . QBWPLISTS_ID . 'contact id=\"\"]", "", "", "Wstaw formularz kontaktowy o wybranym id", 1);'; ?>
-                </script>
+            echo 'QTags.addButton("' . QBWPLISTS_ID . 'item", "Wstaw element", "[' . QBWPLISTS_ID . 'shortcode id=\"\" itemId=\"\"]", "", "", "Wstaw element z wybranej listy", 1);'; ?>
+            </script>
             <?php
         }
     }
@@ -52,11 +50,6 @@ class qbWpListsAdmin
 
     public function deactivation()
     {
-        global $wpdb;
-        $wpdb->query('DROP TABLE ' . QBWPLISTS_TABLE . 'contact_nonces');
-        foreach ($this->collections as $id => $definition) {
-            // $wpdb->query('DROP TABLE ' . QBWPLISTS_TABLE . $id);
-        }
     }
 
     public function getSubmenuPage()

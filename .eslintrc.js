@@ -1,4 +1,3 @@
 module.exports = {
-  extends: 'qb',
-  rules: {}
+  extends: 'qb'
 };

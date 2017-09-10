@@ -1,9 +1,5 @@
-(function($) {
-  let dataTableConfig,
-      datePickerConfig,
-      imageHelpMessage;
-
-  dataTableConfig = {
+(($) => {
+  const dataTableConfig = {
     bPaginate: false,
     bStateSave: true,
     sDom: '<"qbc-search"fi>t',
@@ -17,7 +13,7 @@
     }
   };
 
-  datePickerConfig = {
+  const datePickerConfig = {
     dateFormat: 'yy-mm-dd',
     changeMonth: true,
     changeYear: true,
@@ -29,7 +25,7 @@
     monthNamesShort: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień']
   };
 
-  imageHelpMessage = '<span class="qbca-image-help">?' +
+  const imageHelpMessage = '<span class="qbca-image-help">?' +
             '<div>Wprowadź <strong>URL pliku</strong> z listy wstawionych w zakładce Media.' +
             '<br/>URL znajdziesz edytując obraz, w ramce "Zapisz", po prawej stronie ekranu.' +
             '<br/><a target="_blank" href="/zkwp/wp-admin/upload.php">Otwórz "Media" w nowym oknie</a>' +

@@ -1,5 +1,3 @@
-<h3><?php echo $this->title, ' (', $this->db->num_rows, ') ' ?></h3>
-<?php echo $this->showMessages() ?>
 <p>Identyfikator dla shortcode: <?php echo $this->shortcodeId; ?></p>
 <a class="qbca-add" href="?page=<?php echo $this->page ?>&action=add">
     <span class="qbci-add"></span>Dodaj nowy rekord

@@ -1,6 +1,6 @@
 <?php
 
-class qbColMessage
+class qbWpListsMessage
 {
     public function add($message, $type = 'error')
     {
@@ -15,7 +15,7 @@ class qbColMessage
         if (count($this->messages) > 0) {
             $result = '';
             foreach ($this->messages as $message) {
-                $result .= '<div class="zkwp-tools-message zkwp-' . $message['type'] . '">' . $message['message'] . '</div>';
+                $result .= '<div class="' . $message['type'] . '">' . $message['message'] . '</div>';
             }
 
             return $result;

@@ -42,6 +42,6 @@ if (is_admin()) {
     /* For admin, load administration class. */
     $qbWpListsAdmin = qbWpListsLoadClass('Admin', true, $qbWpListsDefinitions);
 } else {
-    /* For frontend, public part, load shortcodes and contact forms. */
+    /* For frontend, public part, load shortcodes. */
     $qbWpListsShortcode = qbWpListsLoadClass('Shortcode', true, $qbWpListsDefinitions);
 }
