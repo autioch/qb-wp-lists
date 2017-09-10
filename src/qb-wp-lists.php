@@ -30,15 +30,12 @@ global $wpdb;
 define('QBWPLISTS_TABLE', $wpdb->prefix . QBWPLISTS_ID);
 
 /* Load definitions of the lists. */
-$qbWpListsDefinitions = include_once QBWPLISTS_DIR . 'resources/definitions.php';
-$qbWpListsForms = include_once QBWPLISTS_DIR . 'resources/forms.php';
+$qbWpListsDefinitions = include_once QBWPLISTS_DIR . 'definitions/index.php';
 
 require_once QBWPLISTS_DIR . 'utils.php';
 
 /* Create classes based on location in wordpress. */
 if (is_admin()) {
-    /* Load support class for forms */
-    qbWpListsLoadClass('Form');
     /* For admin, load administration class. */
     $qbWpListsAdmin = qbWpListsLoadClass('Admin', true, $qbWpListsDefinitions);
 } else {

@@ -16,7 +16,7 @@ class qbWpListsShortcode
     public function shortcodeCallback($atts)
     {
         $this->enqueueResources();
-        
+
         $attributes = shortcode_atts(['itemid' => false, 'id' => false], $atts);
         $id = $attributes['id'];
         $itemId = $attributes['itemid'];

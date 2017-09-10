@@ -6,7 +6,6 @@ class qbWpListsShortcodeView
     {
         $this->datas = $datas;
         $this->datasExtras = $datasExtras;
-        $this->shortcodeId = $collection['id'];
         include qbWpListsFindTemplate($templateId);
     }
 
