@@ -29,7 +29,6 @@ class qbColAdmin
                 QTags.addButton('qbcol', 'Kolekcje', '[qbcol id=""]', '', '', 'Wstawi tag kolekcji', 1);
             </script>
             <?php
-
         }
     }
 

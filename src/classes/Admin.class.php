@@ -41,7 +41,6 @@ class qbWpListsAdmin
             echo 'QTags.addButton("' . QBWPLISTS_ID . 'contact", "Formularz kontaktowy", "[' . QBWPLISTS_ID . 'contact id=\"\"]", "", "", "Wstaw formularz kontaktowy o wybranym id", 1);'; ?>
                 </script>
             <?php
-
         }
     }
 

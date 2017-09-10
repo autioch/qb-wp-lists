@@ -694,7 +694,6 @@ class qbWpListsForm
             </tbody>
         </table>
         <?php
-
     }
 
     private function renderForm_div()
@@ -721,7 +720,6 @@ class qbWpListsForm
             </div>
         </div>
         <?php
-
     }
 
     private function renderText($field)

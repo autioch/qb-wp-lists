@@ -6,6 +6,5 @@
     <p><?php echo $item->description_short ?></p>
   </li>
   <?php
-
 } ?>
 </ol>

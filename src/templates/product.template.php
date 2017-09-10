@@ -22,7 +22,6 @@ foreach ($this->datas as $id => $item) {
       </div>
     </div>
 <?php
-
 }
 ?>
 </div>

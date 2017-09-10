@@ -12,7 +12,6 @@ function qbWpListsLoadClass($className, $create = false, $arg = null)
     return $create ? new $fullClassName($arg) : true;
 }
 
-
 /* Simplify getting templates */
 function qbWpListsFindTemplate($template)
 {

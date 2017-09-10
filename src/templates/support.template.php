@@ -6,7 +6,6 @@ foreach ($this->datas as $id => $item) {
     <a href="<?php echo $item->link ?>" title="<?php echo $item->question ?>"><?php echo $item->question ?></a>
   </li>
 <?php
-
 }
 ?>
 </ol>

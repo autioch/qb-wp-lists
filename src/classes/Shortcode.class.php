@@ -37,6 +37,7 @@ class qbWpListsShortcode
         }
 
         ob_start();
+
         if ($itemId) {
             $this->view->render($id . '.item', $datas, $datasExtras);
         } else {

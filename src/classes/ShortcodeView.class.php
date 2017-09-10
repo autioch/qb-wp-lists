@@ -93,7 +93,6 @@ class qbWpListsShortcodeView
     public function webLink($link)
     {
         ?><a target="_blank" href="http://<?php echo $link ?>"><?php echo $link ?></a><?php
-
     }
 
     public function pageTopLink()
