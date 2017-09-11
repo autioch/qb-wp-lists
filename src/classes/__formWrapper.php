@@ -79,11 +79,6 @@ function formWrapper($item, $fields){
         }
 
         $form->add_submit('submit', 'Zapisz');
-        $form->add_submit('submitreturn', 'Zapisz i wróc do edycji');
-
-        if ($state == 'edit') {
-            $form->add_submit('delete', 'Usuń');
-        }
 
         return $form;
 }
