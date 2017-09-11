@@ -38,7 +38,7 @@ class qbWpListsAdminPage
 
     public function editItem($mode)
     {
-        $form = formWrapper($item, $this->collection['fields']);
+        $form = $this->getForm();
         if ($form->validate()) {
             $this->saveItem($form->getAll());
             $this->renderList();
@@ -48,7 +48,7 @@ class qbWpListsAdminPage
                 $form->stripSlashes();
             }
 
-            $this->renderHeader( $mode == 'edit' ? ' - Edycja' : ' - Dodawanie');
+            $this->renderHeader($mode == 'edit' ? ' - Edycja' : ' - Dodawanie');
             $form->render();
         }
     }
@@ -87,7 +87,7 @@ class qbWpListsAdminPage
     public function renderList()
     {
         $itemList = $this->db->custom($this->collection['list']);
-        $this->renderHeader( ' (', count($itemList), ')');
+        $this->renderHeader(' (', count($itemList), ')');
 
         include qbWpListsFindTemplate('adminPage');
     }
@@ -98,4 +98,55 @@ class qbWpListsAdminPage
         echo  $this->messages->show();
     }
 
+    private function getForm()
+    {
+        qbWpListsLoadClass('Form');
+
+        $isEdit = false;
+        $id = filter_input(INPUT_GET, 'id');
+
+        if (is_numeric($id)) {
+            $item = $this->db->getItem($this->table, $id);
+            if (!is_null($item)) {
+                $form->add_hidden('id', 'id', $item->id);
+                $isEdit = true;
+            }
+        }
+
+        $target = '?page=' . $this->page . '&action=' . ($isEdit ? 'edit&id=' . $item->id : 'add');
+
+        $form = new qbWpListsForm('qbca_form', $target, 'post');
+        foreach ($this->fields as $key => $val) {
+            $type = array_key_exists('form', $val) ? $val['form'] : 'text';
+            $isRequired = array_key_exists('required', $val) ? $val['required'] : false;
+            switch ($type) {
+                case 'select':
+                    $form->add_select($key, $val['title'], $this->getSelectValues($key), '', $isRequired, $isEdit ? $item->$key : false);
+                    break;
+                case 'email':
+                    $form->add_email($key, $val['title'], '', '', $isRequired, $isEdit ? $item->$key : false);
+                    break;
+                default:
+                    $method = 'add_' . $type;
+                    $form->$method($key, $val['title'], '', $isRequired, $isEdit ? $item->$key : false);
+                    break;
+            }
+        }
+
+        $form->add_checkbox('active', 'Aktywny', '', false, $isEdit ? $item->active : false);
+        $form->add_submit('submit', 'Zapisz');
+
+        return $form;
+    }
+
+    private function getSelectOptions($key)
+    {
+        $result = $this->db->custom('SELECT id, label FROM ' . QBWPLISTS_TABLE . mb_substr($key, 0, -3) . ' ORDER BY label', ARRAY_N);
+        $list = [];
+        foreach ($result as $val) {
+            $list[$val[0]] = $val[1];
+        }
+
+        return $list;
+    }
 }
