@@ -11,6 +11,7 @@ class qbWpListsInstall
         $this->db = qbWpListsLoadClass('Database', true);
     }
 
+    /* TODO Instead of creating collections, create the definitions table, that will store the details of the table. */
     public function install()
     {
         foreach ($this->collections as $id => $collection) {
