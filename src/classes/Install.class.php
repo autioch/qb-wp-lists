@@ -1,5 +1,7 @@
 <?php
 
+
+
 class qbWpListsInstall
 {
     private $db;
@@ -9,14 +11,14 @@ class qbWpListsInstall
     {
         $this->collections = $collections;
         $this->db = qbWpListsLoadClass('Database', true);
+        $this->tables = include './install.php';
     }
 
-    /* TODO Instead of creating collections, create the definitions table, that will store the details of the table. */
     public function install()
     {
-        foreach ($this->collections as $id => $collection) {
+        foreach ($this->tables as $id => $definition) {
             $columns = [];
-            foreach ($collection['fields'] as $name => $field) {
+            foreach ($definition as $name => $field) {
                 $col = '`' . $name . '`' . ' ' . (array_key_exists('db', $field) ? $field['db'] : 'varchar(128)');
 
                 if (array_key_exists('required', $field) && $field['required']) {

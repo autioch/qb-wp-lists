@@ -1,9 +1,5 @@
 <?php
 
-include './__formWrapper.php';
-
-
-
 class qbWpListsAdminControl
 {
     protected $db;

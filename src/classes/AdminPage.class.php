@@ -1,7 +1,5 @@
 <?php
 
-include './__formWrapper.php';
-
 class qbWpListsAdminPage
 {
     protected $collection;
